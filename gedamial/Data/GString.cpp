@@ -153,9 +153,10 @@ ged::Data::GString ged::Data::GString::SubString(const GString& str, const int b
 	return result;
 }
 
+/*
 ged::Data::GArray<ged::Data::GString> ged::Data::GString::Split(const char Splitter, const GString& str)
 {
-	/*
+	
 	GArray<GString> arr(size);
 
 	int beginIndex = 0, endIndex = 0, splits = 0;
@@ -175,8 +176,9 @@ ged::Data::GArray<ged::Data::GString> ged::Data::GString::Split(const char Split
 				}
 		}
 	}
-	*/
+	
 }
+*/
 
 char& ged::Data::GString::operator[](int Index)
 {

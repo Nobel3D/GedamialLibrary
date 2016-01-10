@@ -23,7 +23,7 @@ namespace ged
 			static bool bIsPalindrome(const GString& str);
 
 			static GString SubString(const GString& str, int begin, int end);
-			GArray<GString> Split(const char Splitter, const GString& str);
+			//GArray<GString> Split(const char Splitter, const GString& str);
 
 			/* OPERATOR OVERLOADING */
 			char& operator[](int Index);
