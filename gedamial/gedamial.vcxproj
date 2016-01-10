@@ -131,9 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Data\GArray.h" />
     <ClInclude Include="Data\GList.h" />
     <ClInclude Include="Data\GString.h" />

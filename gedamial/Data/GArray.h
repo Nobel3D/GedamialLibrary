@@ -25,11 +25,6 @@ namespace ged
 			{
 				size = _Size;
 				array_type = new GType[size]();
-
-				/* initialize
-				for (int i = 0; i < size; i++)
-					array_type[i] = NULL;
-				*/
 			}
 
 			GArray(const GArray<GType>& ref)
