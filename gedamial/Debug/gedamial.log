@@ -1,0 +1,21 @@
+﻿  StringManagement.cpp
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(7): warning C4018: '<': signed/unsigned mismatch
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(18): warning C4018: '<': signed/unsigned mismatch
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(31): warning C4018: '<': signed/unsigned mismatch
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(42): warning C4018: '<': signed/unsigned mismatch
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(55): warning C4018: '<': signed/unsigned mismatch
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(88): warning C4018: '<': signed/unsigned mismatch
+  GString.cpp
+  GList.cpp
+  GFraction.cpp
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\gfraction.cpp(44): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\gfraction.cpp(45): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\gfraction.cpp(53): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\gfraction.cpp(54): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  gedamial.cpp
+  GArray.cpp
+  Generating Code...
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(25): warning C4715: 'ged::Strings::strToUpper': not all control paths return a value
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamial\stringmanagement.cpp(49): warning C4715: 'ged::Strings::strToLower': not all control paths return a value
+GArray.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  gedamial.vcxproj -> C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\Debug\gedamial.lib

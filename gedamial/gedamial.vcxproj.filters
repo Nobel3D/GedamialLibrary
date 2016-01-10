@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Mathematics">
+      <UniqueIdentifier>{e2164383-6315-47a8-8e09-af39409de856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{d969bc66-e8e0-461d-bbb6-848aad1ded1d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gedamial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringManagement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\GArray.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\GList.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\GString.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\GFraction.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gedamial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StringManagement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\GArray.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\GList.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\GString.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\GFraction.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
