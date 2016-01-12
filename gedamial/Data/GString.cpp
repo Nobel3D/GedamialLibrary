@@ -214,7 +214,7 @@ ged::Data::GString::~GString()
 	size = 0;
 }
 
-std::ostream & ged::Data::operator<<(std::ostream & s, const GString & other)
+std::ostream& ged::Data::operator<<(std::ostream & s, const GString & other)
 {
 	std::cout << other.mainString;
 	return s;

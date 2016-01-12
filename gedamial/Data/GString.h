@@ -30,6 +30,36 @@ namespace ged
 			const char& operator[](int Index) const;
 			friend std::ostream& operator<<(std::ostream& s, const GString& other);
 			GString& operator=(const GString& other);
+			friend bool operator==(const GString& first, const GString& second)
+			{
+				bool areDifferent = false;
+
+				if (first.size == second.size)
+				{
+					for (int i = 0; i < first.size; i++)
+					{
+						if (first[i] == second[i])
+						{
+							continue;
+						}
+						else
+						{
+							areDifferent = true;
+							break;
+						}
+					}
+
+					if (areDifferent)
+						return false;
+					else
+						return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			friend bool operator!=(const GString& first, const GString& second) { return !(first == second); }
 
 			/* GETTER METHODS */
 			int Size() const { return size; }

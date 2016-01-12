@@ -9,6 +9,11 @@
 	LAST UPDATE: 08/01/2016 - bug fix in GArray
 	LAST UPDATE: 9/01/2016 - added GString class
 	LAST UPDATE: 11/01/2016 - added GList class
+	LAST UPDATE: 12/01/2016 - added == and != operators to GString class
+
+	******************************************************
+							TO DO
+	******************************************************
 */
 
 // STANDARD INCLUDES
