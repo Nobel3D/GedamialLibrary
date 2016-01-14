@@ -47,7 +47,7 @@ namespace ged
 				Copy(copy, *this);
 			}
 
-			void Copy(const GList<T>& Parent, GList<T>& Target)
+			static void Copy(const GList<T>& Parent, GList<T>& Target)
 			{
 				Target.il = new Link<T>{ Parent.il->val,nullptr };
 
@@ -86,6 +86,7 @@ namespace ged
 				il = newNode;
 			}
 
+		private:
 			/* OPERATOR OVERLOADING */
 			friend std::ostream& operator<<(std::ostream& s, const GList& other)			
 			{

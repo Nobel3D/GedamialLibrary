@@ -24,9 +24,6 @@
     <ClInclude Include="gedamial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StringManagement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Data\GArray.h">
       <Filter>Data</Filter>
     </ClInclude>
@@ -42,9 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gedamial.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StringManagement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Data\GArray.cpp">
