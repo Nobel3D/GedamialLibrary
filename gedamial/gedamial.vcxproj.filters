@@ -36,6 +36,9 @@
     <ClInclude Include="Mathematics\GFraction.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
+    <ClInclude Include="Mathematics\G3DVector.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gedamial.cpp">
@@ -51,6 +54,9 @@
       <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="Mathematics\GFraction.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\G3DVector.cpp">
       <Filter>Mathematics</Filter>
     </ClCompile>
   </ItemGroup>

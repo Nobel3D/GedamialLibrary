@@ -1,2 +1,11 @@
-﻿  GString.cpp
-  gedamial.vcxproj -> C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\Release\gedamial.lib
+﻿  GArray.cpp
+  GList.cpp
+  GString.cpp
+  gedamial.cpp
+  G3DVector.cpp
+  GFraction.cpp
+Mathematics\GFraction.cpp(70): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+Mathematics\GFraction.cpp(71): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+Mathematics\GFraction.cpp(79): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+Mathematics\GFraction.cpp(80): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  gedamial.vcxproj -> C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\Release\gedamial.lib

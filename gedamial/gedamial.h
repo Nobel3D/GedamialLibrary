@@ -10,25 +10,20 @@
 	LAST UPDATE: 9/01/2016 - added GString class
 	LAST UPDATE: 11/01/2016 - added GList class
 	LAST UPDATE: 12/01/2016 - added == and != operators to GString class
-
-	******************************************************
-							TO DO
-	******************************************************
+	LAST UPDATE: 15/01/2016 - added G3DVector class
 */
-
-// STANDARD INCLUDES
-#include <iostream>
-#include <limits>
 
 // MATHEMATICS
 #include "Mathematics/GFraction.h"
+#include "Mathematics/G3DVector.h"
 
 // DATA
 #include "Data/GArray.h"
 #include "Data/GString.h"
 #include "Data/GList.h"
 	
-// TEMPLATIZED FUNCTIONS
+/*
+TEMPLATIZED FUNCTIONS
 template<typename T>
 bool InputFailed(T& var)
 {
@@ -44,5 +39,6 @@ bool InputFailed(T& var)
 	else
 		return false;
 }	
+*/
 
 #endif

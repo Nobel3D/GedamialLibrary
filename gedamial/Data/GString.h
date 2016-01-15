@@ -25,6 +25,14 @@ namespace ged
 			static GString SubString(const GString& str, int begin, int end);
 			//GArray<GString> Split(const char Splitter, const GString& str);
 
+			/* GETTER METHODS */
+			int Size() const { return size; }
+			int Vowels() const;
+			int Consonants() const;
+			char* GetString() const { return mainString; }
+			~GString();
+
+		private:
 			/* OPERATOR OVERLOADING */
 			char& operator[](int Index);
 			const char& operator[](int Index) const;
@@ -59,14 +67,7 @@ namespace ged
 					return false;
 				}
 			}
-			friend bool operator!=(const GString& first, const GString& second) { return !(first == second); }
-
-			/* GETTER METHODS */
-			int Size() const { return size; }
-			int Vowels() const;
-			int Consonants() const;
-			char* GetString() const { return mainString; }
-			~GString();
+			friend bool operator!=(const GString& first, const GString& second) { return !(first == second); }			
 		};
 	}
 }

@@ -32,18 +32,6 @@ namespace ged
 			// copy is the GList to clone
 			GList(const GList<T>& copy)
 			{
-				/*
-				il = new Link<T>{ copy.il->val,nullptr };
-
-				Link<T>* Parent = copy.il->next;
-
-				while (Parent)
-				{
-					push_tail(Parent->val);
-
-					Parent = Parent->next;
-				}
-				*/
 				Copy(copy, *this);
 			}
 
