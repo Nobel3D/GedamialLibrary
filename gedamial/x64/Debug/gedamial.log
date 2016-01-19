@@ -1,0 +1,16 @@
+﻿  GFraction.cpp
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(70): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(71): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(79): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(80): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  gedamial.cpp
+  GString.cpp
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\data\gstring.cpp(8): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\data\gstring.cpp(31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  GList.cpp
+  GArray.cpp
+  Generating Code...
+gedamial.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+GList.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+GArray.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  gedamial.vcxproj -> C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\x64\Debug\gedamial.lib
