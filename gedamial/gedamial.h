@@ -11,6 +11,11 @@
 	LAST UPDATE: 11/01/2016 - added GList class
 	LAST UPDATE: 12/01/2016 - added == and != operators to GString class
 	LAST UPDATE: 15/01/2016 - added G3DVector class
+	LAST UPDATE: 15/01/2016 - added operator overloading functions in GList class
+	LAST UPDATE: 18/01/2016
+	LAST UPDATE: 19/01/2016 - overloaded operator= in GFraction class
+
+	**************************** TO DO LIST ****************************
 */
 
 // MATHEMATICS

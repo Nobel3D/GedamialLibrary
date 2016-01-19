@@ -29,18 +29,18 @@ namespace ged
 
 		GFraction::GFraction() {}
 		GFraction::~GFraction() {}
-		GFraction::GFraction(int num, int den) : numerator(num)
+
+		GFraction::GFraction(int Numerator, int Denominator) : numerator(Numerator)
 		{
-			if (den < 1)
-				denominator = 1;
+			Denominator < 1 ? denominator = 1 : denominator = Denominator;
 		}		
 
-		void GFraction::setNum(int num)
+		void GFraction::setNumerator(int num)
 		{
 			numerator = num;
 		}
 
-		void GFraction::setDen(int den)
+		void GFraction::setDenominator(int den)
 		{
 			denominator = den;
 		}
@@ -80,6 +80,17 @@ namespace ged
 			result.denominator = sqrt(f.denominator);
 
 			return result;
+		}
+
+		GFraction& GFraction::Simplify()
+		{
+			GFraction newOne(this->numerator, this->denominator);
+
+			int MCD = getMCD(numerator, denominator);
+			newOne.numerator /= MCD;
+			newOne.denominator /= MCD;
+
+			return newOne;
 		}
 
 		std::string GFraction::printGFraction()
@@ -162,11 +173,21 @@ namespace ged
 			return result;
 		}
 
+		/* OPERATOR OVERLOADING */
+
 		std::ostream& operator<<(std::ostream& s, const GFraction& other)
 		{
-			std::cout << other.numerator << "/" << other.denominator << std::endl;
+			std::cout << other.numerator << "/" << other.denominator;
 
 			return s;
+		}
+
+		GFraction& GFraction::operator=(const GFraction & other)
+		{
+			numerator = other.numerator;
+			denominator = other.denominator;
+
+			return *this;
 		}
 	}
 }

@@ -16,8 +16,9 @@ namespace ged
 		class GList
 		{
 		private:
-
 			Link<T>* il;
+			int items = 0;
+
 			void print_all() const
 			{
 				for (Link<T>* p = il; p; p = p->next)
@@ -49,7 +50,31 @@ namespace ged
 				}
 			}
 
-			void push_tail(const T& val) const
+			int Search(const T& value)
+			{
+				bool found = false;
+				int counter = 0;
+
+				Link<T>* tmp = il;
+
+				while (tmp && !found)
+				{
+					if (tmp->val == value)
+					{
+						found = true;
+						return counter;
+					}
+
+					else
+						tmp = tmp->next;
+
+					counter++;
+				}
+
+				return -1;
+			}
+
+			void push_tail(const T& val)
 			{
 				Link<T>* newNode = new Link<T>;
 				newNode->next = nullptr;
@@ -63,6 +88,8 @@ namespace ged
 				}
 
 				alias->next = newNode;
+
+				items++;
 			}
 
 			void push_head(const T& val)
@@ -72,6 +99,104 @@ namespace ged
 
 				newNode->next = il;
 				il = newNode;
+
+				items++;
+			}
+
+			void DeleteByValue(const T& value)
+			{
+				int position = Search(value);
+
+				if (position != -1)
+				{
+					// If the item to remove is at the BEGINNING...
+					if (position == 0)
+					{
+						Link<T>* tmp = il;
+						il = il->next;
+
+						delete tmp;
+						tmp = nullptr;
+					}
+
+					// If the item to remove is in the MIDDLE...
+					else
+					{
+						Link<T>* previous = il;
+						Link<T>* scroller = il->next;
+
+						// Make scroller to point to the node to delete
+						for (int i = 0; i < position-1; i++)
+						{
+							scroller = scroller->next;
+							previous = previous->next;
+						}
+
+						if (scroller && scroller->next)
+							previous->next = scroller->next;
+						else
+							previous->next = nullptr;
+
+						delete scroller;
+						scroller = nullptr;
+					}
+				}
+			}
+
+			void DeleteAllByValue(const T& value)
+			{
+				int position;
+
+				do
+				{
+					position = Search(value);
+
+					if (position != -1)
+					{
+						// If the item to remove is at the BEGINNING...
+						if (position == 0)
+						{
+							Link<T>* tmp = il;
+							il = il->next;
+
+							delete tmp;
+							tmp = nullptr;
+						}
+
+						// If the item to remove is in the MIDDLE...
+						else
+						{
+							Link<T>* previous = il;
+							Link<T>* scroller = il->next;
+
+							// Make scroller to point to the node to delete
+							for (int i = 0; i < position - 1; i++)
+							{
+								scroller = scroller->next;
+								previous = previous->next;
+							}
+
+							if (scroller && scroller->next)
+								previous->next = scroller->next;
+							else
+								previous->next = nullptr;
+
+							delete scroller;
+							scroller = nullptr;
+						}
+					}
+				} while(position != -1);
+			}
+
+			void PrintDebug()
+			{
+				Link<T>* tmp = il;
+				
+				for (int i = 0; tmp; i++)
+				{
+					std::cout << i << ": " << tmp->val << std::endl;
+					tmp = tmp->next;
+				}
 			}
 
 		private:
@@ -80,9 +205,7 @@ namespace ged
 			{
 				other.print_all();
 				return s;
-			}
-			 
-			/*  other = this  . other is the point of reference */ 
+			}			 
 			GList<T>& operator=(const GList<T>& other)
 			{
 				delete il;

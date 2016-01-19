@@ -17,14 +17,14 @@ namespace ged
 		public:
 			// CTOR
 			GFraction();
-			GFraction(int num, int den);
+			GFraction(int Numerator, int Denominator);
 
 			// DTOR
 			~GFraction();
 
 			// Setter methods
-			void setNum(int num);
-			void setDen(int den);
+			void setNumerator(int num);
+			void setDenominator(int den);
 
 			// Getter methods
 			int GetNumerator();
@@ -47,7 +47,7 @@ namespace ged
 			GFraction changeSign();
 			static GFraction POW(GFraction f);
 			static GFraction SQRT(GFraction f);
-			//void Simplify();
+			GFraction& Simplify();			
 
 			// Utility
 			std::string printGFraction();
@@ -61,6 +61,7 @@ namespace ged
 			operator int() const { return numerator / denominator; }
 			operator float() const { return static_cast<float>(numerator) / denominator; }
 			operator double() const { return static_cast<double>(numerator) / denominator; }
+			GFraction& operator=(const GFraction& other);			
 		};
 	}
 }
