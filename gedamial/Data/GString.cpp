@@ -1,6 +1,9 @@
 #include "GString.h"
 #include <string>
 
+using std::cout;
+using std::endl;
+
 ged::Data::GString::GString()
 {
 	const char* CstyleString = "";
@@ -27,6 +30,7 @@ ged::Data::GString::GString(const char* CstyleString)
 	{
 
 	}
+
 	// +1 for the NULL character at the end (/0)
 	size = strlen(CstyleString);
 	mainString = new char[size+1];
@@ -71,6 +75,31 @@ ged::Data::GString& ged::Data::GString::ToLower()
 	}
 
 	return *this;
+}
+
+void ged::Data::GString::Append(const char* toAdd)
+{
+	const int finalSize = size + strlen(toAdd);
+
+	char* finale = new char[finalSize];
+
+	// Insert the original string characters (hell)
+	int j = 0;
+	for (j = 0; j < size; j++)
+	{
+		finale[j] = mainString[j];
+	}
+
+	// And now insert the characters of the string to append (o)
+	int k = j;
+	for (int i = 0; i < strlen(toAdd); k++, i++)
+	{
+		finale[k] = toAdd[i];
+	}
+
+	finale[k] = '\0';
+
+	mainString = finale;
 }
 
 int ged::Data::GString::Vowels() const
@@ -153,36 +182,29 @@ ged::Data::GString ged::Data::GString::SubString(const GString& str, const int b
 	return result;
 }
 
-/*
 ged::Data::GArray<ged::Data::GString> ged::Data::GString::Split(const char Splitter, const GString& str)
 {
-	
-	GArray<GString> arr(size);
+	GArray<GString> result(str.Size());
 
-	int beginIndex = 0, endIndex = 0, splits = 0;
-
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < str.Size(); i++)
 	{
 		if (str[i] == Splitter)
 		{
-			beginIndex = i;
-			for (int j = beginIndex+1; j < size; j++)
-				if (str[j] == Splitter)
-				{
-					endIndex = j;
-					arr[splits] = SubString(str, beginIndex, endIndex);
-					splits++;
-					break;
-				}
+			GString taken;
+
+			for (int j = 0; j < i; j++)
+			{
+				//taken = taken + str[j];
+			}
 		}
 	}
 	
+	return result;
 }
-*/
 
 char& ged::Data::GString::operator[](int Index)
 {
-	return mainString[Index];
+	return mainString[Index];	 
 }
 
 const char& ged::Data::GString::operator[](int Index) const

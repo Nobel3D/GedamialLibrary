@@ -28,7 +28,9 @@ namespace ged
 			}
 
 		public:
-			GList(const T& val) : il{ new Link<T>{ val,nullptr } } {}			
+			GList(const T& val) : il{ new Link<T>{ val,nullptr } } {}		
+
+			GList() : il{ nullptr } {}
 
 			// copy is the GList to clone
 			GList(const GList<T>& copy)
@@ -186,6 +188,58 @@ namespace ged
 						}
 					}
 				} while(position != -1);
+			}
+
+			/*
+			void Reverse()
+			{
+				if (il == nullptr)
+					return;
+
+				Link<T>* prev = nullptr;
+				Link<T>* current = nullptr;
+				Link<T>* next = nullptr;
+
+				current = il;
+
+				while (current != nullptr) 
+				{
+					next = current->next;
+					current->next = prev;
+					prev = current;
+					current = next;
+				}
+				// now let the head point at the last node (prev)
+				il = prev;
+			}
+			*/
+
+			static GList<T>* Reverse(const GList<T>& toReverse)
+			{
+				GList<T>* result = new GList<T>();
+				GList::Copy(toReverse, *result);
+
+				if (result->il == nullptr)
+					return nullptr;
+
+				Link<T>* prev = nullptr;
+				Link<T>* current = nullptr;
+				Link<T>* next = nullptr;
+
+				current = result->il;
+
+				while (current != nullptr)
+				{
+					next = current->next;
+					current->next = prev;
+					prev = current;
+					current = next;
+				}
+
+				// now let the head point at the last node (prev)
+				result->il = prev;
+
+				return result;
 			}
 
 			void PrintDebug()

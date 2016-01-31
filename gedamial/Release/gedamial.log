@@ -1,7 +1,7 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\release\gstring.obj' because it is being used by another process.
-  GArray.cpp
+﻿  GArray.cpp
   GList.cpp
   GString.cpp
+Data\GString.cpp(95): warning C4018: '<': signed/unsigned mismatch
   gedamial.cpp
   G3DVector.cpp
   GFraction.cpp

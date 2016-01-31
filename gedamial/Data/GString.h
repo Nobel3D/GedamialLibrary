@@ -19,20 +19,21 @@ namespace ged
 			GString& ToUpper();
 			GString& ToLower();			
 
+			void Append(const char* toAdd);
+
 			static GString Reverse(const GString& str);
 			static bool bIsPalindrome(const GString& str);
 
 			static GString SubString(const GString& str, int begin, int end);
-			//GArray<GString> Split(const char Splitter, const GString& str);
+			static GArray<GString> Split(const char Splitter, const GString& str);
 
 			/* GETTER METHODS */
-			int Size() const { return size; }
+			int Size() const { return size; }			// returns the size EXCLUDING the \0 NULL character
 			int Vowels() const;
 			int Consonants() const;
 			char* GetString() const { return mainString; }
 			~GString();
 
-		private:
 			/* OPERATOR OVERLOADING */
 			char& operator[](int Index);
 			const char& operator[](int Index) const;
@@ -67,7 +68,13 @@ namespace ged
 					return false;
 				}
 			}
-			friend bool operator!=(const GString& first, const GString& second) { return !(first == second); }			
+			friend bool operator!=(const GString& first, const GString& second) { return !(first == second); }	
+			GString& operator+=(const char& right)
+			{
+				GString result = this->mainString + right;
+
+				return result;
+			}
 		};
 	}
 }

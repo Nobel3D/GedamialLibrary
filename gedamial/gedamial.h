@@ -14,6 +14,9 @@
 	LAST UPDATE: 15/01/2016 - added operator overloading functions in GList class
 	LAST UPDATE: 18/01/2016
 	LAST UPDATE: 19/01/2016 - overloaded operator= in GFraction class
+	LAST UPDATE: 25/01/2016 - added code to reverse a GList
+	LAST UPDATE: 31/01/2016 - added Append function for GStrings
+
 
 	**************************** TO DO LIST ****************************
 */
