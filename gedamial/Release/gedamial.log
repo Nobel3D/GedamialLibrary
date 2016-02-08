@@ -1,7 +1,8 @@
 ﻿  GArray.cpp
   GList.cpp
+  GStack.cpp
   GString.cpp
-Data\GString.cpp(95): warning C4018: '<': signed/unsigned mismatch
+Data\GString.cpp(97): warning C4018: '<': signed/unsigned mismatch
   gedamial.cpp
   G3DVector.cpp
   GFraction.cpp

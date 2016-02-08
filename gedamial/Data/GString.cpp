@@ -7,11 +7,13 @@ using std::endl;
 ged::Data::GString::GString()
 {
 	const char* CstyleString = "";
-	// +1 for the NULL character at the end (/0)
+
+	// +1 for the NULL character at the end (\0)
 	size = strlen(CstyleString);
 	mainString = new char[size + 1];
 
 	int i = 0;
+
 	// -1 because we want to set the NULL character AFTER the copy of the character from one vector to another
 	for (i = 0; i < size; i++)
 		mainString[i] = CstyleString[i];
@@ -128,6 +130,36 @@ int ged::Data::GString::Consonants() const
 	return this->Size() - this->Vowels();
 }
 
+int ged::Data::GString::Find(const char charToSearch, int start) const
+{
+	int pos = -1;
+
+	for (int i = start; i < this->Size(); i++)
+	{
+		if ((*this)[i] == charToSearch)
+			return i;
+	}
+
+	// Returns -1 if the character wasn't found
+
+	return pos;
+}
+
+int ged::Data::GString::HowManyTimes(const char charToSearch) const
+{
+	int counter = 0;
+
+	for (int i = 0; i < this->Size(); i++)
+	{
+		if ((*this)[i] == charToSearch)
+		{
+			counter++;
+		}
+	}
+
+	return counter;
+}
+
 ged::Data::GString ged::Data::GString::Reverse(const GString& str)
 {
 	GString tmp(str);
@@ -165,7 +197,7 @@ bool ged::Data::GString::bIsPalindrome(const GString& str)
 	}
 }
 
-ged::Data::GString ged::Data::GString::SubString(const GString& str, const int begin, const int end)
+ged::Data::GString& ged::Data::GString::SubString(const int begin, const int end) const
 {
 	// The last "+1" is for the NULL character (\0) 
 	char* tmp = new char[(end-begin) + 1 + 1];
@@ -173,33 +205,55 @@ ged::Data::GString ged::Data::GString::SubString(const GString& str, const int b
 	int i = begin;
 	for (int j = 0; i <= end; i++,j++)
 	{
-		tmp[j] = str[i];
+		tmp[j] = (*this)[i];
 	}
 
 	tmp[i] = '\0';
 
-	GString result(tmp);
-	return result;
+	GString* result = new GString(tmp);
+	return *result;
 }
 
-ged::Data::GArray<ged::Data::GString> ged::Data::GString::Split(const char Splitter, const GString& str)
+ged::Data::GArray<ged::Data::GString>& ged::Data::GString::Split(const char Splitter, GString& str)
 {
-	GArray<GString> result(str.Size());
-
-	for (int i = 0; i < str.Size(); i++)
+	/*
+	// DELETE THE SPLITTERS AT THE BEGINNING OF THE STRING
+	int i = 0;
+	while (str[i] == Splitter)
 	{
-		if (str[i] == Splitter)
-		{
-			GString taken;
-
-			for (int j = 0; j < i; j++)
-			{
-				//taken = taken + str[j];
-			}
-		}
+	i++;
 	}
-	
-	return result;
+
+	str = str.SubString(i, str.Size());
+
+	int splitterNumber = str.HowManyTimes(Splitter);
+	GArray<GString>* result = new GArray<GString>();
+
+	int splitterPos = 0;
+	int currentPos = 0;
+	int previousPos = 0;
+
+	do
+	{
+	splitterPos = str.Find(Splitter, currentPos);
+
+	if (splitterPos >= 0)
+	{
+	currentPos = splitterPos;
+	result->Add(str.SubString(previousPos, currentPos - 1));
+	currentPos++;
+	previousPos = currentPos;
+	}
+
+	else
+	result->Add(str.SubString(currentPos, str.Size()));
+
+	} while (splitterPos >= 0);
+
+	return *result;
+
+	*/
+
 }
 
 char& ged::Data::GString::operator[](int Index)
@@ -232,7 +286,8 @@ ged::Data::GString& ged::Data::GString::operator=(const GString & other)
 
 ged::Data::GString::~GString()
 {
-	delete mainString;
+	delete[] mainString;
+	mainString = nullptr;
 	size = 0;
 }
 
@@ -240,4 +295,9 @@ std::ostream& ged::Data::operator<<(std::ostream & s, const GString & other)
 {
 	std::cout << other.mainString;
 	return s;
+}
+
+bool ged::Data::operator!=(const GString & first, const GString & second)
+{
+	return !(first == second);
 }

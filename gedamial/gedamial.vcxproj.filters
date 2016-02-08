@@ -39,6 +39,9 @@
     <ClInclude Include="Mathematics\G3DVector.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
+    <ClInclude Include="Data\GStack.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gedamial.cpp">
@@ -58,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="Mathematics\G3DVector.cpp">
       <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\GStack.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

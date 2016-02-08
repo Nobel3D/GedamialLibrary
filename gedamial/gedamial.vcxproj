@@ -69,7 +69,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\gedamial\Mathematics;C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\gedamial\Data;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -105,6 +107,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\gedamial\Mathematics;C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\gedamial\Data;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Data\GArray.h" />
     <ClInclude Include="Data\GList.h" />
+    <ClInclude Include="Data\GStack.h" />
     <ClInclude Include="Data\GString.h" />
     <ClInclude Include="gedamial.h" />
     <ClInclude Include="Mathematics\G3DVector.h" />
@@ -141,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Data\GArray.cpp" />
     <ClCompile Include="Data\GList.cpp" />
+    <ClCompile Include="Data\GStack.cpp" />
     <ClCompile Include="Data\GString.cpp" />
     <ClCompile Include="gedamial.cpp" />
     <ClCompile Include="Mathematics\G3DVector.cpp" />

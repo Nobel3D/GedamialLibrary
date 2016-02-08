@@ -20,17 +20,58 @@ namespace ged
 			GType* array_type = nullptr;
 			int size = 0;
 
+			// SPACE MINCHIA
+
 		public:
+			// CONSTRUCTORs AND DESTRUCTOR
 			explicit GArray(int _Size)
 			{
 				size = _Size;
-				array_type = new GType[size]();
+				array_type = new GType[size];
+
+				for (int i{ 0 }; i < size; i++)
+				{
+					array_type[i] = {};
+				}
+			}
+
+			GArray()
+			{
+				size = 0;
 			}
 
 			GArray(const GArray<GType>& ref)
 			{
 				Copy(ref);
 			}
+
+			GArray(std::initializer_list<GType> ilist)
+			{
+				/*
+				reserve(ilist.size());  // get the right amount of space
+				uninitialized_copy(ilist.begin(), ilist.end(), elem);   // initialize elements (in elem[0:s.size()))
+				sz = ilist.size();  // set vector size
+				*/
+
+				size = ilist.size();
+				array_type = new GType[size];
+
+				int c{ 0 };
+				for (auto i = ilist.begin(); i != ilist.end(); i++, c++)
+				{
+					array_type[c] = *i;
+				}
+			}
+
+			~GArray()
+			{
+				size = 0;
+
+				delete array_type;
+				array_type = nullptr;
+			}		
+
+			// FUNCTIONS
 
 			int Search(GType Value)
 			{
@@ -137,15 +178,7 @@ namespace ged
 			int Size() const
 			{
 				return size;
-			}
-
-			/* DESTRUCTOR */
-			~GArray()
-			{
-				size = 0;
-				delete array_type;
-				array_type = nullptr;
-			}
+			}			
 		};
 	}	
 }

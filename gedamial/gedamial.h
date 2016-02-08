@@ -16,6 +16,7 @@
 	LAST UPDATE: 19/01/2016 - overloaded operator= in GFraction class
 	LAST UPDATE: 25/01/2016 - added code to reverse a GList
 	LAST UPDATE: 31/01/2016 - added Append function for GStrings
+	LAST UPDATE: 07/02/2016 - added GStack class
 
 
 	**************************** TO DO LIST ****************************
@@ -29,6 +30,7 @@
 #include "Data/GArray.h"
 #include "Data/GString.h"
 #include "Data/GList.h"
+#include "Data/GStack.h"
 	
 /*
 TEMPLATIZED FUNCTIONS

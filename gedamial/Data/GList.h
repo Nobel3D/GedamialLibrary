@@ -28,9 +28,13 @@ namespace ged
 			}
 
 		public:
-			GList(const T& val) : il{ new Link<T>{ val,nullptr } } {}		
-
 			GList() : il{ nullptr } {}
+			GList(const T& val) : il{ new Link<T>{ val,nullptr } } { items++; }
+			~GList()
+			{
+				delete il;
+				il = nullptr;
+			}
 
 			// copy is the GList to clone
 			GList(const GList<T>& copy)
@@ -253,8 +257,8 @@ namespace ged
 				}
 			}
 
-		private:
-			/* OPERATOR OVERLOADING */
+		/* OPERATOR OVERLOADING */
+		private:			
 			friend std::ostream& operator<<(std::ostream& s, const GList& other)			
 			{
 				other.print_all();
