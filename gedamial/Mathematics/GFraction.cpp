@@ -82,7 +82,7 @@ namespace ged
 			return result;
 		}
 
-		GFraction& GFraction::Simplify()
+		GFraction GFraction::Simplify() const
 		{
 			GFraction newOne(this->numerator, this->denominator);
 
@@ -174,7 +174,6 @@ namespace ged
 		}
 
 		/* OPERATOR OVERLOADING */
-
 		std::ostream& operator<<(std::ostream& s, const GFraction& other)
 		{
 			std::cout << other.numerator << "/" << other.denominator;

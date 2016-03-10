@@ -2,12 +2,14 @@
   GList.cpp
   GStack.cpp
   GString.cpp
-Data\GString.cpp(97): warning C4018: '<': signed/unsigned mismatch
+  GTree.cpp
   gedamial.cpp
-  G3DVector.cpp
+  GVector3.cpp
   GFraction.cpp
 Mathematics\GFraction.cpp(70): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 Mathematics\GFraction.cpp(71): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 Mathematics\GFraction.cpp(79): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 Mathematics\GFraction.cpp(80): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Point.cpp
+  Segment.cpp
   gedamial.vcxproj -> C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\Release\gedamial.lib

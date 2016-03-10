@@ -17,21 +17,28 @@
 	LAST UPDATE: 25/01/2016 - added code to reverse a GList
 	LAST UPDATE: 31/01/2016 - added Append function for GStrings
 	LAST UPDATE: 07/02/2016 - added GStack class
-
+	LAST UPDATE: 08/03/2016 - renamed G3DVector to GVector3
 
 	**************************** TO DO LIST ****************************
 */
 
 // MATHEMATICS
 #include "Mathematics/GFraction.h"
-#include "Mathematics/G3DVector.h"
+#include "Mathematics/GVector3.h"
+#include "Mathematics/Point.h"
+#include "Mathematics/Segment.h"
 
 // DATA
 #include "Data/GArray.h"
 #include "Data/GString.h"
 #include "Data/GList.h"
 #include "Data/GStack.h"
-	
+#include "Data/GTree.h"
+
+// GAME ALGORITHMS
+// character
+
+
 /*
 TEMPLATIZED FUNCTIONS
 template<typename T>

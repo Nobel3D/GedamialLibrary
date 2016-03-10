@@ -76,7 +76,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -100,7 +100,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
@@ -108,6 +108,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\gedamial\Mathematics;C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\gedamial\Data;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/we4172 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,18 +139,24 @@
     <ClInclude Include="Data\GList.h" />
     <ClInclude Include="Data\GStack.h" />
     <ClInclude Include="Data\GString.h" />
+    <ClInclude Include="Data\GTree.h" />
     <ClInclude Include="gedamial.h" />
-    <ClInclude Include="Mathematics\G3DVector.h" />
+    <ClInclude Include="Mathematics\GVector3.h" />
     <ClInclude Include="Mathematics\GFraction.h" />
+    <ClInclude Include="Mathematics\Point.h" />
+    <ClInclude Include="Mathematics\Segment.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\GArray.cpp" />
     <ClCompile Include="Data\GList.cpp" />
     <ClCompile Include="Data\GStack.cpp" />
     <ClCompile Include="Data\GString.cpp" />
+    <ClCompile Include="Data\GTree.cpp" />
     <ClCompile Include="gedamial.cpp" />
-    <ClCompile Include="Mathematics\G3DVector.cpp" />
+    <ClCompile Include="Mathematics\GVector3.cpp" />
     <ClCompile Include="Mathematics\GFraction.cpp" />
+    <ClCompile Include="Mathematics\Point.cpp" />
+    <ClCompile Include="Mathematics\Segment.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,15 +12,11 @@ namespace ged
 			for (int i{ 0 }; i < vec_size; i++)
 				std::cout << vec[i] << std::endl;
 		}
-
-		/* GArray Template Class */		
 		template<typename GType>
 		class GArray
 		{
 			GType* array_type = nullptr;
 			int size = 0;
-
-			// SPACE MINCHIA
 
 		public:
 			// CONSTRUCTORs AND DESTRUCTOR
@@ -38,6 +34,7 @@ namespace ged
 			GArray()
 			{
 				size = 0;
+				array_type = nullptr;
 			}
 
 			GArray(const GArray<GType>& ref)
@@ -46,33 +43,33 @@ namespace ged
 			}
 
 			GArray(std::initializer_list<GType> ilist)
-			{
+			{				
 				/*
 				reserve(ilist.size());  // get the right amount of space
 				uninitialized_copy(ilist.begin(), ilist.end(), elem);   // initialize elements (in elem[0:s.size()))
 				sz = ilist.size();  // set vector size
 				*/
-
+				
 				size = ilist.size();
 				array_type = new GType[size];
 
 				int c{ 0 };
 				for (auto i = ilist.begin(); i != ilist.end(); i++, c++)
-				{
 					array_type[c] = *i;
-				}
+				
 			}
 
 			~GArray()
 			{
 				size = 0;
 
-				delete array_type;
+				delete[] array_type;
 				array_type = nullptr;
 			}		
 
-			// FUNCTIONS
+			/* FUNCTIONS */
 
+			// Because of the existence of SearchMultiple(), this could be considered obsolete
 			int Search(GType Value)
 			{
 				for (int i = 0; i < size; i++)
@@ -82,6 +79,19 @@ namespace ged
 				}
 
 				return -1;
+			}
+
+			GArray<int> SearchMultiple(GType Value)
+			{
+				GArray<int> result;
+
+				for (int i = 0; i < size; i++)
+				{
+					if (array_type[i] == Value)
+						result.Add(i);
+				}
+
+				return result;
 			}
 
 			void Add(GType Item)
@@ -97,9 +107,11 @@ namespace ged
 
 				temp[size - 1] = Item;
 
+				// delete the old array
 				delete[] array_type;
+
+				// array_type now points to the array with the new element added
 				array_type = temp;
-				temp = nullptr;
 			}
 
 			void Replace(int position, GType newItem)
@@ -114,9 +126,7 @@ namespace ged
 				array_type = new GType[size];
 				
 				for (int i = 0; i < size; i++)
-				{
 					array_type[i] = reference[i];
-				}
 			}
 
 			void Sort()
@@ -126,6 +136,7 @@ namespace ged
 				for (int i = 0; i < size; i++)
 				{
 					min = i;
+
 					for (int j = i + 1; j<size; j++)
 						if (array_type[j] < array_type[min])
 							min = j;

@@ -36,11 +36,20 @@
     <ClInclude Include="Mathematics\GFraction.h">
       <Filter>Mathematics</Filter>
     </ClInclude>
-    <ClInclude Include="Mathematics\G3DVector.h">
-      <Filter>Mathematics</Filter>
-    </ClInclude>
     <ClInclude Include="Data\GStack.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\GTree.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Point.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\Segment.h">
+      <Filter>Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathematics\GVector3.h">
+      <Filter>Mathematics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,11 +68,20 @@
     <ClCompile Include="Mathematics\GFraction.cpp">
       <Filter>Mathematics</Filter>
     </ClCompile>
-    <ClCompile Include="Mathematics\G3DVector.cpp">
-      <Filter>Mathematics</Filter>
-    </ClCompile>
     <ClCompile Include="Data\GStack.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\GTree.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Point.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\Segment.cpp">
+      <Filter>Mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathematics\GVector3.cpp">
+      <Filter>Mathematics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

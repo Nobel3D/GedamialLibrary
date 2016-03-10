@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GSTRING_H
+#define GSTRING_H
+
 #include <iostream>
 #include "GArray.h"
 
@@ -12,15 +14,17 @@ namespace ged
 			char* mainString;
 			int size;
 		public:
-			GString();
-			GString(const char* CstyleString);
+			//GString();
+			GString(const char* CstyleString = "");
 			GString(const GString& copy);
+			GString(GString&& move);
 			~GString();
 
-			GString& ToUpper();
-			GString& ToLower();						
+			GString ToUpper();
+			GString ToLower();						
 
 			void Append(const char* toAdd);
+			void Append(char toAdd);
 
 			int Find(const char charToSearch, int start) const;
 			int HowManyTimes(const char charToSearch) const;
@@ -29,7 +33,7 @@ namespace ged
 
 			GString& SubString(int begin, int end) const;
 
-			static GArray<GString>& Split(const char Splitter, GString& str);
+			//static GArray<GString>& Split(const char Splitter, GString& str);
 
 			/* GETTER METHODS */
 			int Size() const { return size; }			// returns the size EXCLUDING the \0 NULL character
@@ -40,8 +44,12 @@ namespace ged
 			/* OPERATOR OVERLOADING */
 			char& operator[](int Index);
 			const char& operator[](int Index) const;
+
 			friend std::ostream& operator<<(std::ostream& s, const GString& other);
+			
 			GString& operator=(const GString& other);
+			GString& operator=(GString&& other);
+
 			friend bool operator==(const GString& first, const GString& second)
 			{
 				bool areDifferent = false;
@@ -71,10 +79,26 @@ namespace ged
 					return false;
 				}
 			}
-			friend bool operator!=(const GString& first, const GString& second);
+			friend bool operator!=(const GString& first, const GString& second)
+			{
+				return !(first == second);
+			}
+			friend bool operator<(const GString& first, const GString& second)
+			{
+				int minSize = first.Size() < second.Size() ? first.Size() : second.Size();
+
+				for (int i{ 0 }; i < minSize; i++)
+				{
+					if (static_cast<int>(first[i]) < static_cast<int>(second[i]))
+						return true;
+				}
+
+				return false;
+			}
+			
 			GString& operator+=(const char* right)
 			{
-				this->Append(right); 
+				this->Append(right);
 
 				return *this;
 			}
@@ -86,16 +110,14 @@ namespace ged
 			}
 			GString& operator+=(char right)
 			{
-				char* toSend = &right;
-
-				this->Append(toSend);
-
+				this->Append(right);
 				return *this;
 			}
 
-			operator const char*() const { return mainString; }
+			operator const char*() const;
 		};
 	}
 }
+#endif
 
 

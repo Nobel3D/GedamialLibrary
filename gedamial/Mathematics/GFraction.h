@@ -47,7 +47,7 @@ namespace ged
 			GFraction changeSign();
 			static GFraction POW(GFraction f);
 			static GFraction SQRT(GFraction f);
-			GFraction& Simplify();			
+			GFraction Simplify() const;			
 
 			// Utility
 			std::string printGFraction();
