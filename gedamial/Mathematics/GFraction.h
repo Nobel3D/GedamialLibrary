@@ -12,11 +12,14 @@ namespace ged
 		class GFraction
 		{
 		private:
-			int numerator = 0, denominator = 1;
+			int numerator;
+			int denominator;
 
 		public:
 			// CTOR
 			GFraction();
+			GFraction(const GFraction& copy);
+			GFraction(GFraction&& move);
 			GFraction(int Numerator, int Denominator);
 
 			// DTOR
@@ -47,7 +50,7 @@ namespace ged
 			GFraction changeSign();
 			static GFraction POW(GFraction f);
 			static GFraction SQRT(GFraction f);
-			GFraction Simplify() const;			
+			GFraction Simplify();			
 
 			// Utility
 			std::string printGFraction();

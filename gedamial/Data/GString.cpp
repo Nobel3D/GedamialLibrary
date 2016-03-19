@@ -11,30 +11,23 @@ namespace ged
 		GString::GString(const char* CstyleString)
 		{
 			if (CstyleString == nullptr)
-			{
-				// TODO...
-			}
-
-			else
-			{
-
-			}
-
-			// +1 for the NULL character at the end (/0)
+				CstyleString = "";
+			
 			size = strlen(CstyleString);
+			// +1 for the NULL character at the end (/0)
 			mainString = new char[size + 1];
 
 			int i = 0;
-			// -1 because we want to set the NULL character AFTER the copy of the character from one vector to another
 			for (i = 0; i < size; i++)
 				mainString[i] = CstyleString[i];
 
+			// Now 'i' is the last element, that must be the NULL character
 			mainString[i] = '\0';
 		}
 
-		GString::GString(const GString & copy)
+		GString::GString(const GString& copy)
 		{
-			cout << "[GString] Copy Constructor" << endl;
+			//cout << "[GString] Copy Constructor" << endl;
 			size = copy.size;
 			mainString = new char[size];
 
@@ -49,7 +42,7 @@ namespace ged
 
 		GString::GString(GString&& move)
 		{
-			cout << "[GString] Move Constructor" << endl;
+			//cout << "[GString] Move Constructor" << endl;
 
 			size = move.size;
 			mainString = new char[size];
@@ -75,9 +68,7 @@ namespace ged
 			GString result{ *this };
 
 			for (int i{ 0 }; i < size; ++i)
-			{
 				result[i] = toupper(mainString[i]);
-			}
 
 			return result;
 		}
@@ -137,30 +128,35 @@ namespace ged
 			mainString = finale;
 		}
 
+		int GString::Size() const
+		{
+			return size;
+		}
+
 		int GString::Vowels() const
 		{
-			int vocals = 0;
+			int vowels = 0;
 
 			GString tmp(*this);
 			tmp.ToLower();
 
 
-			for (int i{ 0 }; i < this->Size(); ++i)
+			for (int i{ 0 }; i < Size(); ++i)
 			{
 				if (tmp[i] == 'a' ||
 					tmp[i] == 'e' ||
 					tmp[i] == 'i' ||
 					tmp[i] == 'o' ||
 					tmp[i] == 'u')
-					++vocals;
+					vowels++;
 			}
 
-			return vocals;
+			return vowels;
 		}
 
 		int GString::Consonants() const
 		{
-			return this->Size() - this->Vowels();
+			return Size() - Vowels();
 		}
 
 		int GString::Find(const char charToSearch, int start) const
@@ -230,21 +226,18 @@ namespace ged
 			}
 		}
 
-		GString& GString::SubString(const int begin, const int end) const
+		GString GString::SubString(const int begin, const int end) const
 		{
 			// The last "+1" is for the NULL character (\0) 
 			char* tmp = new char[(end - begin) + 1 + 1];
 
 			int i = begin;
 			for (int j = 0; i <= end; i++, j++)
-			{
 				tmp[j] = (*this)[i];
-			}
 
 			tmp[i] = '\0';
-
-			GString* result = new GString(tmp);
-			return *result;
+			
+			return GString(tmp);
 		}
 
 		//ged::Data::GArray<ged::Data::GString>& ged::Data::GString::Split(const char Splitter, GString& str)
@@ -285,7 +278,10 @@ namespace ged
 		//
 		//	return *result;
 		//	
-		//}
+		//}	
+
+
+		/* OPERATOR OVERLOADING */
 
 		char& GString::operator[](int Index)
 		{
@@ -299,7 +295,7 @@ namespace ged
 
 		GString& GString::operator=(const GString & other)
 		{
-			std::cout << "[String] Plain Assignment" << endl;
+			//std::cout << "[String] Plain Assignment" << endl;
 			size = other.size;
 
 			delete[] mainString;
@@ -318,7 +314,7 @@ namespace ged
 
 		GString& GString::operator=(GString&& other)
 		{
-			std::cout << "[String] Move Assignment" << endl;
+			//std::cout << "[String] Move Assignment" << endl;
 			size = other.size;
 
 			delete[] mainString;
@@ -341,7 +337,75 @@ namespace ged
 			return s;
 		}
 
+		bool operator==(const GString & first, const GString & second)
+		{
+			bool areDifferent = false;
+
+			if (first.size == second.size)
+			{
+				for (int i = 0; i < first.size; i++)
+				{
+					if (first[i] == second[i])
+					{
+						continue;
+					}
+					else
+					{
+						areDifferent = true;
+						break;
+					}
+				}
+
+				if (areDifferent)
+					return false;
+				else
+					return true;
+			}
+
+			else
+				return false;
+		}
+
+		bool operator!=(const GString & first, const GString & second)
+		{
+			return !(first == second);
+		}
+
+		bool operator<(const GString & first, const GString & second)
+		{
+			int minSize = first.Size() < second.Size() ? first.Size() : second.Size();
+
+			for (int i{ 0 }; i < minSize; i++)
+				if (static_cast<int>(first[i]) < static_cast<int>(second[i]))
+					return true;
+
+			return false;
+		}
+
+		GString & GString::operator+=(const char * right)
+		{
+			this->Append(right);
+			return *this;
+		}
+
+		GString & GString::operator+=(const GString & right)
+		{
+			this->Append(right.mainString);
+			return *this;
+		}
+
+		GString & GString::operator+=(char right)
+		{
+			this->Append(right);
+			return *this;
+		}
+
 		GString::operator const char*() const
+		{
+			return mainString;
+		}
+
+		GString::operator char*() const
 		{
 			return mainString;
 		}

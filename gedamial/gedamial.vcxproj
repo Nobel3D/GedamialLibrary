@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="Data\GArray.h" />
     <ClInclude Include="Data\GList.h" />
+    <ClInclude Include="Data\GMap.h" />
     <ClInclude Include="Data\GStack.h" />
     <ClInclude Include="Data\GString.h" />
     <ClInclude Include="Data\GTree.h" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Data\GArray.cpp" />
     <ClCompile Include="Data\GList.cpp" />
+    <ClCompile Include="Data\GMap.cpp" />
     <ClCompile Include="Data\GStack.cpp" />
     <ClCompile Include="Data\GString.cpp" />
     <ClCompile Include="Data\GTree.cpp" />

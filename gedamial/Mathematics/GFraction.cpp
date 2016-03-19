@@ -27,12 +27,24 @@ namespace ged
 			return ((a * b) / getMCD(a, b));
 		}
 
-		GFraction::GFraction() {}
+		GFraction::GFraction() : numerator{ 1 }, denominator{ 1 }
+		{}
+
+		GFraction::GFraction(const GFraction& copy)
+		{
+			std::cout << "copy ctor" << std::endl;
+		}
+
+		GFraction::GFraction(GFraction&& move)
+		{
+			std::cout << "move ctor" << std::endl;
+		}
+
 		GFraction::~GFraction() {}
 
-		GFraction::GFraction(int Numerator, int Denominator) : numerator(Numerator)
+		GFraction::GFraction(int Numerator, int Denominator) : numerator{ Numerator }
 		{
-			Denominator < 1 ? denominator = 1 : denominator = Denominator;
+			setDenominator(Denominator);
 		}		
 
 		void GFraction::setNumerator(int num)
@@ -42,55 +54,39 @@ namespace ged
 
 		void GFraction::setDenominator(int den)
 		{
-			denominator = den;
+			if (den == 0)
+				denominator = 1;
+			else
+				denominator = den;
 		}
 
-		int GFraction::GetNumerator()
-		{
-			return numerator;
-		}
-
-		int GFraction::GetDenominator()
-		{
-			return denominator;
-		}
+		int GFraction::GetNumerator() {	return numerator; }
+		int GFraction::GetDenominator()	{ return denominator; }
 
 		GFraction GFraction::changeSign()
-		{
-			GFraction result;
-			result.numerator = this->numerator*(-1);
-			result.denominator = this->denominator;
-
-			return result;
+		{			
+			return GFraction(numerator*-1, denominator);
 		}
 
+		// static
 		GFraction GFraction::POW(GFraction f)
 		{
-			GFraction result;
-			result.numerator = pow(f.numerator, 2);
-			result.denominator = pow(f.denominator, 2);
-			return result;
+			return GFraction(pow(f.numerator,2), pow(f.denominator,2));
 		}
 
+		// static
 		GFraction GFraction::SQRT(GFraction f)
 		{
-			GFraction result;
-
-			result.numerator = sqrt(f.numerator);
-			result.denominator = sqrt(f.denominator);
-
-			return result;
+			return GFraction(sqrt(f.numerator), sqrt(f.denominator));
 		}
 
-		GFraction GFraction::Simplify() const
+		GFraction GFraction::Simplify()
 		{
-			GFraction newOne(this->numerator, this->denominator);
-
 			int MCD = getMCD(numerator, denominator);
-			newOne.numerator /= MCD;
-			newOne.denominator /= MCD;
+			numerator /= MCD;
+			denominator /= MCD;
 
-			return newOne;
+			return *this;
 		}
 
 		std::string GFraction::printGFraction()
@@ -102,7 +98,7 @@ namespace ged
 
 		bool GFraction::isZero()
 		{
-			if (numerator == 0 || denominator == 0)
+			if (numerator == 0)
 				return true;
 			else
 				return false;
@@ -116,6 +112,7 @@ namespace ged
 				return false;
 		}
 
+		// static
 		GFraction GFraction::Sum(const GFraction& first, const GFraction& second)
 		{
 			GFraction result;
@@ -136,22 +133,12 @@ namespace ged
 
 		GFraction GFraction::Multiplication(const GFraction& first, const GFraction& second)
 		{
-			GFraction result;
-
-			result.numerator = first.numerator * second.numerator;
-			result.denominator = first.denominator * second.denominator;
-
-			return result;
+			return GFraction(first.numerator*second.numerator, first.denominator * second.denominator);
 		}
 
 		GFraction GFraction::Multiplication(int num, const GFraction& f)
 		{
-			GFraction result;
-
-			result.numerator = num * f.numerator;
-			result.denominator = f.denominator;
-
-			return result;
+			return GFraction(num*f.numerator, f.denominator);
 		}
 
 		GFraction GFraction::Division(const GFraction& first, const GFraction& second)

@@ -15,7 +15,7 @@ namespace ged
 		template<typename T>
 		class GList
 		{
-		private:
+		public:
 			Link<T>* il;
 			int items = 0;
 
@@ -97,18 +97,13 @@ namespace ged
 
 			int Search(const T& value)
 			{
-				bool found = false;
-				int counter = 0;
-
+				int counter = 1;
 				Link<T>* tmp = il;
 
-				while (tmp && !found)
+				while (tmp)
 				{
 					if (tmp->val == value)
-					{
-						found = true;
 						return counter;
-					}
 
 					else
 						tmp = tmp->next;
@@ -153,6 +148,10 @@ namespace ged
 				int position = Search(value);
 
 				if (position != -1)
+					DeletePosition(position);
+
+				/*
+				if (position != -1)
 				{
 					// If the item to remove is at the BEGINNING...
 					if (position == 0)
@@ -186,6 +185,7 @@ namespace ged
 						scroller = nullptr;
 					}
 				}
+				*/
 			}
 
 			void DeleteDuplicates(const T& value)
@@ -196,6 +196,10 @@ namespace ged
 				{
 					position = Search(value);
 
+					if(position != -1)
+						DeletePosition(position);
+
+					/*
 					if (position != -1)
 					{
 						// If the item to remove is at the BEGINNING...
@@ -206,6 +210,8 @@ namespace ged
 
 							delete tmp;
 							tmp = nullptr;
+
+							items--;
 						}
 
 						// If the item to remove is in the MIDDLE...
@@ -228,47 +234,70 @@ namespace ged
 
 							delete scroller;
 							scroller = nullptr;
+
+							items--;
 						}
 					}
+					*/
 				} while(position != -1);
 			}
 
 			void DeletePosition(int _pos)
 			{
-				int localPos{ 0 };
-
-				if (_pos == 1)
-				{
-					Link<T>* temp = il;
-					il = il->next;
-
-					delete temp;
-				}
+				// If our list doesn't contain any element, just return
+				if (items == 0)
+					return;
 
 				else
 				{
-					if (!il->next)
-						return;
+					// If we want to delete the head...
+					if (_pos == 1)
+					{
+						Link<T>* temp = il;
+						il = il->next;
+
+						delete temp;
+						items--;
+					}
 
 					else
-					{
-						Link<T>* previous = il;
-						Link<T>* scroller = previous->next;
-						localPos = 2;
+					{						
+						// If you get here it means you don't want to delete the head
+						// But if the head is all you've got, then return
+						if (!il->next)
+							return;
 
-						while (localPos < _pos && scroller->next)
+						else
 						{
-							previous = scroller;
-							scroller = scroller->next;
-							localPos++;
-						}
+							Link<T>* previous = il;
+							Link<T>* scroller = previous->next;
 
-						if (localPos == _pos)
-						{
-							previous->next = scroller->next;
-							delete scroller;							
+							// We start from 2 since we've already checked if the node to delete is the head
+							// and also because SCROLLER is now pointing to the 2nd node of the list
+							int localPos{ 2 };
+
+							// Cycle through all the nodes until we get to the one to delete...
+
+							// 1c -> We verify if we haven't reached our node yet 
+							// 2c -> We verify if the next element EXISTS. If not, stop going through
+							while (localPos < _pos && scroller->next)
+							{
+								previous = scroller;
+								scroller = scroller->next;
+								localPos++;
+							}
+
+							// If the node to delete was found at the end of the research...
+							// (because we might've not found it)
+							if (localPos == _pos)
+							{
+								previous->next = scroller->next;
+								delete scroller;
+
+								items--;
+							}
 						}
-					}					
+					}
 				}
 			}
 

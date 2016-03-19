@@ -15,6 +15,13 @@ namespace ged
 		template<typename GType>
 		class GArray
 		{
+			// to resolve the issue on line 35-38
+			// we should write it like this
+
+			// GType** array_type = nullptr;
+			// so we are going to create an array of pointers to the GType
+			// and we can create arrays of user-defined class objects without them having a constructor
+			// a default empty constructor
 			GType* array_type = nullptr;
 			int size = 0;
 
@@ -25,6 +32,7 @@ namespace ged
 				size = _Size;
 				array_type = new GType[size];
 
+				// ONLY FOR BUILT-IN TYPES!!!!
 				for (int i{ 0 }; i < size; i++)
 				{
 					array_type[i] = {};
@@ -150,13 +158,13 @@ namespace ged
 			/* OPERATOR OVERLOADING */
 			GType& operator[](int Index)
 			{
-				if (Index >= 0 && Index < size)
+				//if (Index >= 0 && Index < size)
 					return array_type[Index];
 			}
 
 			const GType& operator[](int Index) const
 			{
-				if (Index >= 0 && Index < size)
+				//if (Index >= 0 && Index < size)
 					return array_type[Index];
 			}
 

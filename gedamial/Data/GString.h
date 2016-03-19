@@ -14,34 +14,54 @@ namespace ged
 			char* mainString;
 			int size;
 		public:
+			// There is no need for an empty constructor like the one commented above
+			// since we are making a constructor taking either a string or an empty one
 			//GString();
 			GString(const char* CstyleString = "");
+			// copy constructor
 			GString(const GString& copy);
+			// move constructor - some performance boost
 			GString(GString&& move);
+			// destructor
 			~GString();
 
+			// returns the string in a Upper Case format
 			GString ToUpper();
+			// returns the string in a Lower Case format
 			GString ToLower();						
 
+			// appends a char* to the GString
 			void Append(const char* toAdd);
+			// appends a char to the GString
 			void Append(char toAdd);
 
+			// finds a single character in the GString and returns the index of it
 			int Find(const char charToSearch, int start) const;
+			// returns how many times the character appears in the GString
 			int HowManyTimes(const char charToSearch) const;
+			// reverses the GString (e.g.: hello -> olleh)
 			static GString Reverse(const GString& str);
+			// determines if a given GString is palindrome or not (e.g.: poop -> yes, it's palindrome)
 			static bool bIsPalindrome(const GString& str);
 
-			GString& SubString(int begin, int end) const;
+			// takes a substring that begins from BEGING and ends at END
+			GString SubString(int begin, int end) const;
 
+			// still need to find the right algorithm for this...
 			//static GArray<GString>& Split(const char Splitter, GString& str);
 
-			/* GETTER METHODS */
-			int Size() const { return size; }			// returns the size EXCLUDING the \0 NULL character
-			int Vowels() const;
-			int Consonants() const;
-			char* GetString() const { return mainString; }			
 
-			/* OPERATOR OVERLOADING */
+			/* GETTER METHODS */
+
+			// returns the size EXCLUDING the \0 NULL character
+			int Size() const;		
+			// returns the number of vowels in the string
+			int Vowels() const;
+			// returns the number of consonants in the string
+			int Consonants() const;
+
+
+			/* OPERATOR OVERLOADING */			
 			char& operator[](int Index);
 			const char& operator[](int Index) const;
 
@@ -50,71 +70,17 @@ namespace ged
 			GString& operator=(const GString& other);
 			GString& operator=(GString&& other);
 
-			friend bool operator==(const GString& first, const GString& second)
-			{
-				bool areDifferent = false;
+			friend bool operator==(const GString& first, const GString& second);
+			friend bool operator!=(const GString& first, const GString& second);
+			friend bool operator<(const GString& first, const GString& second);
 
-				if (first.size == second.size)
-				{
-					for (int i = 0; i < first.size; i++)
-					{
-						if (first[i] == second[i])
-						{
-							continue;
-						}
-						else
-						{
-							areDifferent = true;
-							break;
-						}
-					}
+			GString& operator+=(const char* right);			
+			GString& operator+=(const GString& right);
+			GString& operator+=(char right);
 
-					if (areDifferent)
-						return false;
-					else
-						return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			friend bool operator!=(const GString& first, const GString& second)
-			{
-				return !(first == second);
-			}
-			friend bool operator<(const GString& first, const GString& second)
-			{
-				int minSize = first.Size() < second.Size() ? first.Size() : second.Size();
-
-				for (int i{ 0 }; i < minSize; i++)
-				{
-					if (static_cast<int>(first[i]) < static_cast<int>(second[i]))
-						return true;
-				}
-
-				return false;
-			}
-			
-			GString& operator+=(const char* right)
-			{
-				this->Append(right);
-
-				return *this;
-			}
-			GString& operator+=(const GString& right)
-			{
-				this->Append(right.mainString);
-
-				return *this;
-			}
-			GString& operator+=(char right)
-			{
-				this->Append(right);
-				return *this;
-			}
-
+			// Converts GString to const char*
 			operator const char*() const;
+			operator char*() const;
 		};
 	}
 }
