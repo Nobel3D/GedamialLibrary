@@ -15,16 +15,15 @@ namespace ged
 		template<typename T>
 		class GList
 		{
-		public:
+		private:
 			Link<T>* il;
 			int items = 0;
 
+			// Prints all the nodes
 			void print_all() const
 			{
-				for (Link<T>* p = il; p; p = p->next)
-				{
-					std::cout << p->val << std::endl;
-				}
+				for (Link<T>* p = il; p; p = p->next)				
+					std::cout << p->val << std::endl;				
 			}
 
 			// Deletes all the nodes from the list
@@ -48,6 +47,18 @@ namespace ged
 				il = nullptr;
 			}
 
+			// For test purposes; prints every node with each index
+			void PrintDebug()
+			{
+				Link<T>* tmp = il;
+
+				for (int i = 0; tmp; i++)
+				{
+					std::cout << i << ": " << tmp->val << std::endl;
+					tmp = tmp->next;
+				}
+			}
+
 		public:
 			GList() : il{ nullptr } {}
 
@@ -56,12 +67,13 @@ namespace ged
 				items++; 
 			}
 
-			// copy is our reference
+			// Copy Constructor
 			GList(const GList<T>& copy)
 			{
 				Copy(copy, *this);
 			}
 
+			// Move Constructor
 			GList(GList<T>&& move)
 			{
 				il = new Link<T>{ move.il->val,nullptr };
@@ -95,6 +107,7 @@ namespace ged
 				}
 			}
 
+			// Searches for a specific value in the list (if more than one, returns the first one found)
 			int Search(const T& value)
 			{
 				int counter = 1;
@@ -114,6 +127,7 @@ namespace ged
 				return -1;
 			}
 
+			// Adds an element at the beginning of the list
 			void push_head(const T& val)
 			{
 				Link<T>* newNode = new Link<T>{ val, il };
@@ -123,6 +137,7 @@ namespace ged
 				items++;
 			}
 
+			// Adds an element at the end of the list
 			void push_tail(const T& val)
 			{
 				Link<T>* newNode = new Link<T>{ val , nullptr };
@@ -143,6 +158,7 @@ namespace ged
 				items++;
 			}
 
+			// Deletes a single value
 			void DeleteValue(const T& value)
 			{
 				int position = Search(value);
@@ -188,6 +204,7 @@ namespace ged
 				*/
 			}
 
+			// Deletes all the duplicates of a given value
 			void DeleteDuplicates(const T& value)
 			{
 				int position;
@@ -355,6 +372,7 @@ namespace ged
 			}
 			*/
 
+			// Reverses the list
 			GList<T> Reverse()
 			{
 				GList<T> result;
@@ -382,18 +400,6 @@ namespace ged
 				result.il = prev;
 
 				return result;
-			}
-
-			// for test purposes
-			void PrintDebug()
-			{
-				Link<T>* tmp = il;
-				
-				for (int i = 0; tmp; i++)
-				{
-					std::cout << i << ": " << tmp->val << std::endl;
-					tmp = tmp->next;
-				}
 			}			
 
 		    /* OPERATOR OVERLOADING */

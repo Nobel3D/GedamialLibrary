@@ -4,39 +4,34 @@
 namespace ged
 {
 	namespace Data
-	{
-		/* NOT PART OF THE CLASS */
-		template<typename T>
-		static void printArray(const T& vec, const int& vec_size)
-		{
-			for (int i{ 0 }; i < vec_size; i++)
-				std::cout << vec[i] << std::endl;
-		}
+	{		
 		template<typename GType>
 		class GArray
 		{
-			// to resolve the issue on line 35-38
-			// we should write it like this
-
+			// to resolve the issue on line 35 we should write it like this
 			// GType** array_type = nullptr;
 			// so we are going to create an array of pointers to the GType
 			// and we can create arrays of user-defined class objects without them having a constructor
-			// a default empty constructor
 			GType* array_type = nullptr;
-			int size = 0;
+			size_t size = 0;
+
+			void Copy(const GArray<GType>& reference)
+			{
+				size = reference.size;
+				array_type = new GType[size];
+
+				for (int i = 0; i < size; i++)
+					array_type[i] = reference[i];
+			}
 
 		public:
-			// CONSTRUCTORs AND DESTRUCTOR
-			explicit GArray(int _Size)
+			explicit GArray(size_t _Size)
 			{
 				size = _Size;
 				array_type = new GType[size];
 
-				// ONLY FOR BUILT-IN TYPES!!!!
 				for (int i{ 0 }; i < size; i++)
-				{
-					array_type[i] = {};
-				}
+					array_type[i] = {};				
 			}
 
 			GArray()
@@ -45,11 +40,13 @@ namespace ged
 				array_type = nullptr;
 			}
 
+			// Copy Constructor
 			GArray(const GArray<GType>& ref)
 			{
 				Copy(ref);
 			}
 
+			// Initializer-List Constructor
 			GArray(std::initializer_list<GType> ilist)
 			{				
 				/*
@@ -67,6 +64,7 @@ namespace ged
 				
 			}
 
+			// Destructor
 			~GArray()
 			{
 				size = 0;
@@ -77,8 +75,8 @@ namespace ged
 
 			/* FUNCTIONS */
 
-			// Because of the existence of SearchMultiple(), this could be considered obsolete
-			int Search(GType Value)
+			// Returns the position of a value inside the array (if found)
+			size_t Search(GType Value)
 			{
 				for (int i = 0; i < size; i++)
 				{
@@ -89,7 +87,9 @@ namespace ged
 				return -1;
 			}
 
-			GArray<int> SearchMultiple(GType Value)
+			// Returns the positions of all the values inside the array (if found)
+			// GType must be a type with a defined operator==
+			GArray<size_t> SearchMultiple(GType Value)
 			{
 				GArray<int> result;
 
@@ -102,41 +102,32 @@ namespace ged
 				return result;
 			}
 
+			// Adds dynamically an item into the array
 			void Add(GType Item)
 			{
 				size++;
 
 				GType* temp = new GType[size];
 
-				for (int i = 0; i < size - 1; i++)
-				{
-					temp[i] = array_type[i];
-				}
+				for (int i = 0; i < size - 1; i++)				
+					temp[i] = array_type[i];				
 
 				temp[size - 1] = Item;
 
 				// delete the old array
 				delete[] array_type;
-
 				// array_type now points to the array with the new element added
 				array_type = temp;
 			}
 
+			// Replaces an item with another in a given position
 			void Replace(int position, GType newItem)
 			{
 				if(position>=0 && position<size)
 					array_type[position] = newItem;
-			}
+			}			
 
-			void Copy(const GArray<GType>& reference)
-			{
-				size = reference.size;
-				array_type = new GType[size];
-				
-				for (int i = 0; i < size; i++)
-					array_type[i] = reference[i];
-			}
-
+			// Sorts the array 
 			void Sort()
 			{
 				int min = 0;
@@ -156,28 +147,25 @@ namespace ged
 			}
 
 			/* OPERATOR OVERLOADING */
-			GType& operator[](int Index)
+			GType& operator[](size_t Index)
 			{
-				//if (Index >= 0 && Index < size)
-					return array_type[Index];
-			}
+				return array_type[Index];
+			}			
 
-			const GType& operator[](int Index) const
+			const GType& operator[](size_t Index) const
 			{
-				//if (Index >= 0 && Index < size)
-					return array_type[Index];
+				return array_type[Index];
 			}
 
 			friend std::ostream& operator<<(std::ostream& s, const GArray<GType>& other)
 			{
-				for (int i = 0; i < other.Size(); i++)
-				{
-					std::cout << other[i] << std::endl;
-				}
+				for (int i = 0; i < other.Size(); i++)				
+					std::cout << other[i] << std::endl;				
 
 				return s;
 			}
 
+			// Assignment operator
 			GArray<GType>& operator=(const GArray<GType>& other)
 			{
 				size = other.size;
@@ -185,16 +173,15 @@ namespace ged
 				delete[] array_type;
 				array_type = new GType[size];
 
-				for (int i = 0; i < size; i++)
-				{
+				for (int i = 0; i < size; i++)				
 					array_type[i] = other.array_type[i];
-				}
+				
 
 				return *this;			
 			}
 
-			/* GETTER METHODS */
-			int Size() const
+			// Returns the size of the array
+			size_t Size() const
 			{
 				return size;
 			}			

@@ -20,6 +20,7 @@
 	07/02/2016 - added GStack class
 	08/03/2016 - renamed G3DVector to GVector3
 	12/03/2016 - GString: separated interface from implementation in operator overloading and added comments
+	20/03/2016 - added GMatrix class
 */
 
 // MATHEMATICS
@@ -34,10 +35,9 @@
 #include "Data/GList.h"
 #include "Data/GStack.h"
 #include "Data/GTree.h"
+#include "Data/GMatrix.h"
 
 // GAME ALGORITHMS
-// character
-
 
 /*
 TEMPLATIZED FUNCTIONS
@@ -57,5 +57,15 @@ bool InputFailed(T& var)
 		return false;
 }	
 */
+
+namespace ged
+{
+	template<typename T>
+	static void printArray(const T& vec, unsigned int vec_size)
+	{
+		for (unsigned int i{ 0 }; i < vec_size; i++)
+			std::cout << vec[i] << std::endl;
+	}
+}
 
 #endif

@@ -1,6 +1,7 @@
 ﻿  GArray.cpp
   GList.cpp
   GMap.cpp
+  GMatrix.cpp
   GStack.cpp
   GString.cpp
   GTree.cpp
