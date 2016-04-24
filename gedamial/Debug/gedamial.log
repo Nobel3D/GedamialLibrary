@@ -1,17 +1,18 @@
-﻿  GFraction.cpp
-c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(70): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(71): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(79): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(80): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  G3DVector.cpp
+﻿  Segment.cpp
+  Point.cpp
+  GFraction.cpp
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(80): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  GVector3.cpp
   gedamial.cpp
   GTree.cpp
   GString.cpp
   GStack.cpp
+  GMatrix.cpp
+  GMap.cpp
   GList.cpp
   GArray.cpp
   Generating Code...
-c:\users\micky\documents\visual studio 2015\projects\gedamial\gedamiallibrary\gedamial\mathematics\gfraction.cpp(93): warning C4172: returning address of local variable or temporary: newOne
 gedamial.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 GStack.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 GList.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library

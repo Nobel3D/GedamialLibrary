@@ -21,6 +21,7 @@
 	08/03/2016 - renamed G3DVector to GVector3
 	12/03/2016 - GString: separated interface from implementation in operator overloading and added comments
 	20/03/2016 - added GMatrix class
+	24/04/2016 - provided operator>> overload for GString class
 */
 
 // MATHEMATICS

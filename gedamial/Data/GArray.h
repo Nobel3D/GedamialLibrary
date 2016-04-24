@@ -28,10 +28,7 @@ namespace ged
 			explicit GArray(size_t _Size)
 			{
 				size = _Size;
-				array_type = new GType[size];
-
-				for (int i{ 0 }; i < size; i++)
-					array_type[i] = {};				
+				array_type = new GType[size]{};
 			}
 
 			GArray()

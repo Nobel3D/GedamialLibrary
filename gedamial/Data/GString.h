@@ -66,7 +66,8 @@ namespace ged
 			const char& operator[](int Index) const;
 
 			friend std::ostream& operator<<(std::ostream& s, const GString& other);
-			
+			friend std::istream& operator>>(std::istream& s, GString& other);
+
 			GString& operator=(const GString& other);
 			GString& operator=(GString&& other);
 

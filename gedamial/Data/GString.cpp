@@ -293,9 +293,8 @@ namespace ged
 			return mainString[Index];
 		}
 
-		GString& GString::operator=(const GString & other)
+		GString& GString::operator=(const GString& other)
 		{
-			//std::cout << "[String] Plain Assignment" << endl;
 			size = other.size;
 
 			delete[] mainString;
@@ -334,6 +333,25 @@ namespace ged
 		std::ostream& operator<<(std::ostream & s, const GString & other)
 		{
 			std::cout << other.mainString;
+			return s;
+		}
+
+		std::istream& operator>>(std::istream & s, GString & other)
+		{
+			// allocating random space
+			const int buffSz = 100;
+			char buff[buffSz];
+
+			// getting the string from the stream
+			s.get(buff, buffSz, '\n');
+
+			// copying buff into myString
+			other = GString(buff);
+
+			// clearing the stream buffer
+			s.clear();
+			s.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 			return s;
 		}
 
