@@ -27,7 +27,6 @@ namespace ged
 
 		GString::GString(const GString& copy)
 		{
-			//cout << "[GString] Copy Constructor" << endl;
 			size = copy.size;
 			mainString = new char[size];
 
@@ -42,8 +41,6 @@ namespace ged
 
 		GString::GString(GString&& move)
 		{
-			//cout << "[GString] Move Constructor" << endl;
-
 			size = move.size;
 			mainString = new char[size];
 
@@ -87,6 +84,25 @@ namespace ged
 
 		void GString::Append(const char* toAdd)
 		{
+			/*
+				WITHOUT DYNAMIC ALLOCATION!
+				void Cat(char* prima, char* seconda)
+				{
+					int j = Lunghezza(prima);
+					int k = 0;
+
+					for (int i = 0; i < Lunghezza(seconda); i++)
+					{
+					prima[j] = seconda[k];
+
+					j++;
+					k++;
+					}
+
+					prima[j] = '\0';
+				}
+			*/
+			
 			const int finalSize = size + strlen(toAdd);
 
 			char* finale = new char[finalSize];
@@ -106,7 +122,8 @@ namespace ged
 			}
 
 			finale[k] = '\0';
-
+			
+			delete[] mainString;
 			mainString = finale;
 		}
 
@@ -125,10 +142,11 @@ namespace ged
 			finale[j] = toAdd;
 			finale[j + 1] = '\0';
 
+			delete[] mainString;
 			mainString = finale;
 		}
 
-		int GString::Size() const
+		size_t GString::Size() const
 		{
 			return size;
 		}
@@ -139,7 +157,6 @@ namespace ged
 
 			GString tmp(*this);
 			tmp.ToLower();
-
 
 			for (int i{ 0 }; i < Size(); ++i)
 			{
@@ -174,16 +191,14 @@ namespace ged
 			return pos;
 		}
 
-		int GString::HowManyTimes(const char charToSearch) const
+		int GString::Occurrences(const char charToSearch) const
 		{
 			int counter = 0;
 
-			for (int i = 0; i < this->Size(); i++)
+			for (int i = 0; i < Size(); i++)
 			{
-				if ((*this)[i] == charToSearch)
-				{
-					counter++;
-				}
+				if (mainString[i] == charToSearch)				
+					counter++;				
 			}
 
 			return counter;
@@ -202,9 +217,11 @@ namespace ged
 			return tmp;
 		}
 
-		bool GString::bIsPalindrome(const GString& str)
+		bool GString::IsPalindrome(const GString& str)
 		{
+			// Points to the first character
 			const char* first = &str[0];
+			// Points to the last character
 			const char* last = &str[str.Size() - 1];
 
 			for (int i{ 0 }; first != last && i<str.Size() - 1; i++, first++, last--)
@@ -215,24 +232,54 @@ namespace ged
 					continue;
 			}
 
-			if (*first == *last)
-			{
-				return true;
-			}
+			if (*first == *last)			
+				return true;			
 
-			else
-			{
+			else			
 				return false;
-			}
 		}
 
-		GString GString::SubString(const int begin, const int end) const
+		bool GString::StrStr(GString source, GString substr)
+		{
+			int i = 0;
+
+			while (source[i] != '\0')
+			{
+				// Finds the first character of the SUBSTR inside the SOURCE
+				if (source[i] == substr[0])
+				{
+					int k = i + 1;
+					int j = 1;
+					int counter = 0;
+
+					// If the next character in the SOURCE is equal to the second one of the SUBSTR (and so forth...)
+					// AND, AT THE SAME TIME, we haven't reached the SUBSTR stopper yet
+					while (source[k] == substr[j] && substr[j] != '\0')
+					{
+						counter++;
+						k++;
+						j++;
+					}
+
+					// If the number of letters we've found in the first string (+1, because at the beginning we exclude the first char)
+					// IS EQUAL TO the lenght of the second string -> we've found the sub-string =)
+					if (counter + 1 == substr.Size())					
+						return true;					
+				}
+
+				i++;
+			}
+
+			return false;			
+		}
+
+		GString GString::SubString(const int beginIndex, const int endIndex) const
 		{
 			// The last "+1" is for the NULL character (\0) 
-			char* tmp = new char[(end - begin) + 1 + 1];
+			char* tmp = new char[(endIndex - beginIndex) + 1 + 1];
 
-			int i = begin;
-			for (int j = 0; i <= end; i++, j++)
+			int i = beginIndex;
+			for (int j = 0; i <= endIndex; i++, j++)
 				tmp[j] = (*this)[i];
 
 			tmp[i] = '\0';
@@ -400,19 +447,19 @@ namespace ged
 			return false;
 		}
 
-		GString & GString::operator+=(const char * right)
+		GString& GString::operator+=(const char * right)
 		{
 			this->Append(right);
 			return *this;
 		}
 
-		GString & GString::operator+=(const GString & right)
+		GString& GString::operator+=(const GString & right)
 		{
 			this->Append(right.mainString);
 			return *this;
 		}
 
-		GString & GString::operator+=(char right)
+		GString& GString::operator+=(char right)
 		{
 			this->Append(right);
 			return *this;
