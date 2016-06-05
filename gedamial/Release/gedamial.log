@@ -8,8 +8,8 @@
   gedamial.cpp
   GVector3.cpp
   GFraction.cpp
-Mathematics\GFraction.cpp(74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
 Mathematics\GFraction.cpp(80): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+Mathematics\GFraction.cpp(86): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
   Point.cpp
   Segment.cpp
   gedamial.vcxproj -> C:\Users\Micky\Documents\Visual Studio 2015\Projects\gedamial\GedamialLibrary\Release\gedamial.lib

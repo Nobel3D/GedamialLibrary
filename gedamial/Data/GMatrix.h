@@ -11,8 +11,8 @@ This is a graphic representation of a 3x2 matrix
 
 matrix is the PP
 
-*matrix is the 0th pointer
-matrix[0] is the 0th pointer
+*matrix is the 0th pointer   <<--|
+matrix[0] is the 0th pointe  <<--|
 matrix[1] is the 1st pointer
 matrix[2] is the 2nd pointer
 

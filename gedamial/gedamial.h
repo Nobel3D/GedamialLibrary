@@ -1,3 +1,5 @@
+/* DO NOT FORGET TO DELETE EVERY cout, endl OR SIMILAR CONSOLE-ONLY COMMANDS */
+
 #ifndef GEDAMIAL_H
 #define GEDAMIAL_H
 /*
@@ -22,6 +24,7 @@
 	12/03/2016 - GString: separated interface from implementation in operator overloading and added comments
 	20/03/2016 - added GMatrix class
 	24/04/2016 - provided operator>> overload for GString class
+	05/06/2016 - GString class performance optimized a lot; new Split() function
 */
 
 // MATHEMATICS

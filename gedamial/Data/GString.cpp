@@ -4,60 +4,99 @@
 using std::cout;
 using std::endl;
 
+#define USE_DEBUG false
+
 namespace ged
 {
 	namespace Data
 	{
 		GString::GString(const char* CstyleString)
 		{
-			if (CstyleString == nullptr)
-				CstyleString = "";
-			
-			size = strlen(CstyleString);
-			// +1 for the NULL character at the end (/0)
-			mainString = new char[size + 1];
-
-			int i = 0;
-			for (i = 0; i < size; i++)
-				mainString[i] = CstyleString[i];
-
-			// Now 'i' is the last element, that must be the NULL character
-			mainString[i] = '\0';
-		}
-
-		GString::GString(const GString& copy)
-		{
-			size = copy.size;
-			mainString = new char[size];
-
-			int i = 0;
-			for (; i < size; i++)
+			if (USE_DEBUG)
 			{
-				mainString[i] = copy.mainString[i];
+				cout << "***************" << endl;
+				if (CstyleString) cout << "Creation process started for (" << CstyleString << ")" << endl;
+				else			  cout << "Creation process started for ( #nullptr# )" << endl;
 			}
 
-			mainString[i] = '\0';
+			Create(CstyleString);
+
+			if(USE_DEBUG)
+			{
+				cout << "Creation process ended" << endl;
+				cout << "***************" << endl << endl;
+			}
+		
+		}
+
+		GString::GString(const GString& copy) //: GString((const char*)copy)
+		{
+			if (USE_DEBUG) cout << "COPY CTOR" << endl;
+			Create(copy);
 		}
 
 		GString::GString(GString&& move)
 		{
+			if(USE_DEBUG) cout << "MOVE CTOR" << endl;
+
+			// let's steal the resources
 			size = move.size;
-			mainString = new char[size];
+			mainString = move.mainString;
 
-			int i = 0;
-			for (; i < size; i++)
-			{
-				mainString[i] = move.mainString[i];
-			}
-
-			mainString[i] = '\0';
+			move.size = 0;
+			// this is VERY important: since this temporary is going to be destructed,
+			// we want to make sure that the temporary's mainString is set to *nullptr*
+			// Otherwise, the temporary's destructor will free the data we've previously moved inside our mainString (above)!!!
+			move.mainString = nullptr;
 		}
 
 		GString::~GString()
 		{
+			if (USE_DEBUG)
+			{
+				cout << "***************" << endl;
+				// bug solved! crash if printing a NULLPTR
+				if (mainString) cout << "Destructor process started for (" << mainString << ")" << endl;
+				else		   cout << "Destructor process started for ( #nullptr# )" << endl;
+			}
+
+			Clear();
+
+			if (USE_DEBUG)
+			{
+				cout << "Destruction process ended" << endl;
+				cout << "***************" << endl << endl;
+			}
+		}
+
+		void GString::Create(const char* source)
+		{
+			Clear();
+			
+			// with 'source = ""' we are changing the pointer, not the element pointed
+			// for this reason the compiler doesn't complain about the CONST qualifier
+			// if we put *source = "" - then the compiler complains
+			if (source == nullptr)
+				source = "";
+
+			size = strlen(source);
+
+			// +1 for the NULL character at the end (/0)
+			mainString = new char[size + 1];
+
+			for (int i = 0; i < size; i++)
+				mainString[i] = source[i];
+
+			// Now 'size' is the last element, that must be the NULL character
+			mainString[size] = '\0';
+		}
+
+		void GString::Clear()
+		{
+			// delete old string	
 			delete[] mainString;
 			mainString = nullptr;
-			size = 0;
+			size = 0;				
 		}
 
 		GString GString::ToUpper()
@@ -74,10 +113,8 @@ namespace ged
 		{
 			GString result{ *this };
 
-			for (int i{ 0 }; i < size; ++i)
-			{
-				result[i] = tolower(mainString[i]);
-			}
+			for (int i{ 0 }; i < size; ++i)			
+				result[i] = tolower(mainString[i]);			
 
 			return result;
 		}
@@ -103,9 +140,12 @@ namespace ged
 				}
 			*/
 			
-			const int finalSize = size + strlen(toAdd);
+			// The last "+1" is for the NULL character (\0)
+			const int finalSize = size + strlen(toAdd) + 1;
 
 			char* finale = new char[finalSize];
+
+			// example: hell + o
 
 			// Insert the original string characters (hell)
 			int j = 0;
@@ -116,34 +156,37 @@ namespace ged
 
 			// And now insert the characters of the string to append (o)
 			int k = j;
-			for (int i = 0; i < strlen(toAdd); k++, i++)
-			{
-				finale[k] = toAdd[i];
-			}
+			for (int i = 0; i < strlen(toAdd); k++, i++)			
+				finale[k] = toAdd[i];			
 
 			finale[k] = '\0';
-			
-			delete[] mainString;
-			mainString = finale;
+
+			Create(finale);
+
+			// don't forget to release resources!
+			delete[] finale;
 		}
 
 		void GString::Append(char toAdd)
 		{
-			char* finale = new char[size + 1];
+			// The first "+1" is for the new character which is going to be appended
+			// The last "+1" is for the NULL character (\0)
+			char* finale = new char[ (size + 1) + 1 ];
 
 			// Insert the original string characters (hell)
 			int j = 0;
-			for (j = 0; j < size; j++)
-			{
+			for (j = 0; j < size; j++)			
 				finale[j] = mainString[j];
-			}
-
-			// And now insert the characters of the string to append (o)
+			
+			// And now insert the character at the end (o)
 			finale[j] = toAdd;
+			// NULL character 
 			finale[j + 1] = '\0';
 
-			delete[] mainString;
-			mainString = finale;
+			Create(finale);
+
+			// don't forget to release resources!
+			delete[] finale;
 		}
 
 		size_t GString::Size() const
@@ -155,10 +198,11 @@ namespace ged
 		{
 			int vowels = 0;
 
-			GString tmp(*this);
+			GString tmp{ *this };
+
 			tmp.ToLower();
 
-			for (int i{ 0 }; i < Size(); ++i)
+			for (int i{ 0 }; i < size; ++i)
 			{
 				if (tmp[i] == 'a' ||
 					tmp[i] == 'e' ||
@@ -173,58 +217,54 @@ namespace ged
 
 		int GString::Consonants() const
 		{
-			return Size() - Vowels();
+			return size - Vowels();
 		}
 
-		int GString::Find(const char charToSearch, int start) const
+		size_t GString::Find(const char charToSearch, size_t start) const
 		{
-			int pos = -1;
-
-			for (int i = start; i < this->Size(); i++)
+			for (int i = start; i < size; i++)
 			{
-				if ((*this)[i] == charToSearch)
+				if (mainString[i] == charToSearch)
 					return i;
 			}
 
 			// Returns -1 if the character wasn't found
-
-			return pos;
+			return -1;
 		}
 
 		int GString::Occurrences(const char charToSearch) const
 		{
 			int counter = 0;
 
-			for (int i = 0; i < Size(); i++)
-			{
+			for (int i = 0; i < size; i++)			
 				if (mainString[i] == charToSearch)				
-					counter++;				
-			}
+					counter++;			
 
 			return counter;
 		}
 
 		GString GString::Reverse(const GString& str)
 		{
-			GString tmp(str);
+			GString tmp{ str };
 
-			// tmp.Size()-1 because we don't want the NULL character (\0) to be placed at the beginning of the string (because that's not the end)
-			for (int i = tmp.Size() - 1, j = 0; i > -1; i--, j++)
-			{
-				tmp[i] = str[j];
-			}
+			// tmp.size-1 because we don't want the NULL character (\0) to be placed at the beginning of the string (because that's not the end)
+			for (int i = tmp.size - 1, j = 0; i >= 0; i--, j++)		
+				tmp[i] = str[j];			
 
 			return tmp;
 		}
 
 		bool GString::IsPalindrome(const GString& str)
 		{
+			/* 
+			//old algorithm
+
 			// Points to the first character
 			const char* first = &str[0];
 			// Points to the last character
 			const char* last = &str[str.Size() - 1];
 
-			for (int i{ 0 }; first != last && i<str.Size() - 1; i++, first++, last--)
+			for (int i{ 0 }; first != last && i <str.size - 1; i++, first++, last--)
 			{
 				if (*first != *last)
 					break;
@@ -237,8 +277,14 @@ namespace ged
 
 			else			
 				return false;
+			*/
+		
+			if (str == Reverse(str))
+				return true;
+			else
+				return false;
 		}
-
+		
 		bool GString::StrStr(GString source, GString substr)
 		{
 			int i = 0;
@@ -263,7 +309,7 @@ namespace ged
 
 					// If the number of letters we've found in the first string (+1, because at the beginning we exclude the first char)
 					// IS EQUAL TO the lenght of the second string -> we've found the sub-string =)
-					if (counter + 1 == substr.Size())					
+					if (counter + 1 == substr.size)					
 						return true;					
 				}
 
@@ -273,60 +319,118 @@ namespace ged
 			return false;			
 		}
 
-		GString GString::SubString(const int beginIndex, const int endIndex) const
+		void GString::Trim(char toDelete)
 		{
+			/* 
+			old algorithm, inefficient 
+			//int i = 0, cont = 0;
+			//bool finished = false;
+
+			//while (mainString[i] != '\0' && !finished)
+			//{
+			//	if (mainString[i] == toDelete)
+			//		cont++;
+
+			//	else
+			//		finished = true;
+
+			//	i++;
+			//}
+
+			//// build new string
+			//char* result = new char[this->Size() - cont + 1];
+
+			//for (int j = cont, k = 0; j < this->Size(); j++, k++)
+			//	result[k] = mainString[j];
+
+			//result[this->Size() - cont] = '\0';
+
+			//Create(result);
+			*/
+
+			size_t start{ 0 }, end{ size - 1 };
+
+			char* left = mainString;
+			while (*left == toDelete)
+			{
+				++left;
+				++start;
+			}
+
+			char* right = mainString + size - 1;
+			while (right > left && *right == toDelete)
+			{
+				--right;
+				--end;
+			}
+
+			Create(SubString(start, end));
+		}
+
+		GString GString::SubString(const size_t beginIndex, const size_t endIndex) const
+		{
+			/*			
 			// The last "+1" is for the NULL character (\0) 
 			char* tmp = new char[(endIndex - beginIndex) + 1 + 1];
 
-			int i = beginIndex;
-			for (int j = 0; i <= endIndex; i++, j++)
-				tmp[j] = (*this)[i];
+			for (int i = beginIndex, j = 0; i <= endIndex; i++, j++)
+				tmp[j] = mainString[i];
 
-			tmp[i] = '\0';
+			tmp[(endIndex - beginIndex) + 1] = '\0';
 			
 			return GString(tmp);
+			*/
+			
+			// IF NOT-IN-RANGE, return empty string
+			if (!(beginIndex >= 0 && beginIndex < size    &&    endIndex >= 0 && endIndex < size))
+				return GString();
+
+			// The last "+1" is for the NULL character (\0) 
+			int totalSize = (endIndex - beginIndex + 1) + 1;
+			char* tmp = new char[totalSize];					// this space must be freed after
+
+			for (int i = beginIndex, j = 0; i <= endIndex; i++, j++)
+				tmp[j] = mainString[i];
+
+			tmp[totalSize - 1] = '\0';
+
+			// direct initialization
+			GString result{ tmp };
+			delete[] tmp;										// HERE we free that space
+
+			return result;
+
+			/* 
+				It could have been more readable to do
+
+				return { tmp };  calling the (converting) constructor of GString
+
+				However, the function would have terminated without RELEASING the space dynamically allocated by 'tmp' (memory leak)
+			*/
 		}
 
-		//ged::Data::GArray<ged::Data::GString>& ged::Data::GString::Split(const char Splitter, GString& str)
-		//{
-		//	
-		//	// DELETE THE SPLITTERS AT THE BEGINNING OF THE STRING
-		//	int i = 0;
-		//	while (str[i] == Splitter)
-		//	{
-		//	i++;
-		//	}
-		//
-		//	str = str.SubString(i, str.Size());
-		//
-		//	int splitterNumber = str.HowManyTimes(Splitter);
-		//	GArray<GString>* result = new GArray<GString>();
-		//
-		//	int splitterPos = 0;
-		//	int currentPos = 0;
-		//	int previousPos = 0;
-		//
-		//	do
-		//	{
-		//	splitterPos = str.Find(Splitter, currentPos);
-		//
-		//	if (splitterPos >= 0)
-		//	{
-		//	currentPos = splitterPos;
-		//	result->Add(str.SubString(previousPos, currentPos - 1));
-		//	currentPos++;
-		//	previousPos = currentPos;
-		//	}
-		//
-		//	else
-		//	result->Add(str.SubString(currentPos, str.Size()));
-		//
-		//	} while (splitterPos >= 0);
-		//
-		//	return *result;
-		//	
-		//}	
+		GArray<GString> GString::Split(GString str, char token)
+		{
+			str.Trim(token);
+			GArray<GString> arr;
 
+			size_t lastPos = 0;
+			size_t tokenPos = str.Find(token);
+
+			while (tokenPos != -1)
+			{
+				arr.Add(str.SubString(lastPos, tokenPos - 1));
+
+				lastPos = tokenPos + 1;
+
+				tokenPos = str.Find(token, tokenPos + 1);
+			}
+
+			arr.Add(str.SubString(lastPos, str.Size() - 1));
+
+			return arr;
+		}	
+		
 
 		/* OPERATOR OVERLOADING */
 
@@ -342,44 +446,33 @@ namespace ged
 
 		GString& GString::operator=(const GString& other)
 		{
-			size = other.size;
+			if (USE_DEBUG) cout << "ASSIGNMENT OPERATOR" << endl;
 
-			delete[] mainString;
-			mainString = new char[size];
-
-			int i = 0;
-			for (; i < size; i++)
-			{
-				mainString[i] = other.mainString[i];
-			}
-
-			mainString[i] = '\0';
+			// Create() already frees the old string to replace it with the new one
+			Create(other);
 
 			return *this;
 		}
 
 		GString& GString::operator=(GString&& other)
 		{
-			//std::cout << "[String] Move Assignment" << endl;
+			if (USE_DEBUG) std::cout << "MOVE ASSIGNMENT OPERATOR" << "   " << this->mainString << " = " << other.mainString << endl;
+
+			// Here we can't use the Create() function, because it would be inefficient in this case
+			this->Clear();
+
 			size = other.size;
+			mainString = other.mainString;
 
-			delete[] mainString;
-			mainString = new char[size];
-
-			int i = 0;
-			for (; i < size; i++)
-			{
-				mainString[i] = other.mainString[i];
-			}
-
-			mainString[i] = '\0';
+			other.size = 0;
+			other.mainString = nullptr;
 
 			return *this;
 		}
 
 		std::ostream& operator<<(std::ostream & s, const GString & other)
 		{
-			std::cout << other.mainString;
+			s << other.mainString;
 			return s;
 		}
 
@@ -402,44 +495,30 @@ namespace ged
 			return s;
 		}
 
-		bool operator==(const GString & first, const GString & second)
-		{
-			bool areDifferent = false;
-
-			if (first.size == second.size)
+		bool operator==(const GString& first, const GString& second)
+		{			
+			if (first.size != second.size)
+				return false;
+			
+			for (int i = 0; i < first.size; i++)
 			{
-				for (int i = 0; i < first.size; i++)
-				{
-					if (first[i] == second[i])
-					{
-						continue;
-					}
-					else
-					{
-						areDifferent = true;
-						break;
-					}
-				}
-
-				if (areDifferent)
-					return false;
-				else
-					return true;
+				if (first[i] != second[i])					
+					return false;					
 			}
 
-			else
-				return false;
+			return true;
 		}
 
-		bool operator!=(const GString & first, const GString & second)
+		bool operator!=(const GString& first, const GString& second)
 		{
 			return !(first == second);
 		}
 
 		bool operator<(const GString & first, const GString & second)
 		{
-			int minSize = first.Size() < second.Size() ? first.Size() : second.Size();
+			int minSize = first.size < second.size ? first.size : second.size;
 
+			// Compare the ASCII code
 			for (int i{ 0 }; i < minSize; i++)
 				if (static_cast<int>(first[i]) < static_cast<int>(second[i]))
 					return true;
@@ -447,55 +526,47 @@ namespace ged
 			return false;
 		}
 
-		GString& GString::operator+=(const char * right)
+		GString& GString::operator+=(const char* right)
 		{
+			if(USE_DEBUG) cout << "operator+=(const char*)" << endl;
+
 			this->Append(right);
 			return *this;
 		}
 
-		GString& GString::operator+=(const GString & right)
+		GString& GString::operator+=(const GString& right)
 		{
+			if (USE_DEBUG) cout << "operator+=(const GString&)" << endl;
+
 			this->Append(right.mainString);
 			return *this;
 		}
 
 		GString& GString::operator+=(char right)
 		{
+			if (USE_DEBUG) cout << "operator+=(char)" << endl;
+
 			this->Append(right);
 			return *this;
 		}
 
 		GString::operator const char*() const
 		{
+			if(USE_DEBUG) cout << "conversion GString to const char*" << endl;
+
 			return mainString;
 		}
 
 		GString::operator char*() const
 		{
+			if(USE_DEBUG) cout << "conversion GString to char*" << endl;
+
 			return mainString;
 		}
 
-		/*
-		ged::Data::GString::GString()
+		GString::operator char() const
 		{
-		const char* CstyleString = "";
-
-		// +1 for the NULL character at the end (\0)
-		size = strlen(CstyleString);
-		mainString = new char[size + 1];
-
-		int i = 0;
-
-		// -1 because we want to set the NULL character AFTER the copy of the character from one vector to another
-		for (i = 0; i < size; i++)
-		mainString[i] = CstyleString[i];
-
-		mainString[i] = '\0';
+			return mainString[0];
 		}
-		*/
 	}
 }
-
-
-
-

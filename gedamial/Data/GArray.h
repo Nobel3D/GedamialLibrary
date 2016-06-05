@@ -40,6 +40,7 @@ namespace ged
 			// Copy Constructor
 			GArray(const GArray<GType>& ref)
 			{
+				cout << "copy" << endl;
 				Copy(ref);
 			}
 
@@ -50,15 +51,26 @@ namespace ged
 				reserve(ilist.size());  // get the right amount of space
 				uninitialized_copy(ilist.begin(), ilist.end(), elem);   // initialize elements (in elem[0:s.size()))
 				sz = ilist.size();  // set vector size
-				*/
-				
+				*/				
+
 				size = ilist.size();
 				array_type = new GType[size];
 
+				// Assign each element of the initializer_list to our array
 				int c{ 0 };
 				for (auto i = ilist.begin(); i != ilist.end(); i++, c++)
-					array_type[c] = *i;
-				
+					array_type[c] = *i;		// 'i' is the pointer, '*i' is the element pointed				
+			}
+
+			GArray(GArray<GType>&& move)
+			{
+				cout << "MOVE CTOR" << endl;
+
+				size = move.size;
+				array_type = move.array_type;
+
+				move.size = 0;
+				move.array_type = nullptr;
 			}
 
 			// Destructor
@@ -73,11 +85,11 @@ namespace ged
 			/* FUNCTIONS */
 
 			// Returns the position of a value inside the array (if found)
-			size_t Search(GType Value)
+			size_t Search(GType value)
 			{
 				for (int i = 0; i < size; i++)
 				{
-					if (array_type[i] == Value)
+					if (array_type[i] == value)
 						return i;
 				}
 
@@ -85,14 +97,14 @@ namespace ged
 			}
 
 			// Returns the positions of all the values inside the array (if found)
-			// GType must be a type with a defined operator==
-			GArray<size_t> SearchMultiple(GType Value)
+			// *GType must be a type with a defined operator==
+			GArray<size_t> SearchMultiple(GType value)
 			{
 				GArray<int> result;
 
 				for (int i = 0; i < size; i++)
 				{
-					if (array_type[i] == Value)
+					if (array_type[i] == value)
 						result.Add(i);
 				}
 
@@ -102,19 +114,21 @@ namespace ged
 			// Adds dynamically an item into the array
 			void Add(GType Item)
 			{
-				size++;
+				// "+1" for the newly added element
+				GType* temp = new GType[size + 1];
 
-				GType* temp = new GType[size];
-
-				for (int i = 0; i < size - 1; i++)				
+				// copy the previous elements
+				for (int i = 0; i < size; i++)				
 					temp[i] = array_type[i];				
 
-				temp[size - 1] = Item;
+				// add the new one				
+				temp[size] = Item;
 
 				// delete the old array
 				delete[] array_type;
 				// array_type now points to the array with the new element added
 				array_type = temp;
+				size++;
 			}
 
 			// Replaces an item with another in a given position

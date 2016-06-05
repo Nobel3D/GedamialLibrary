@@ -38,6 +38,12 @@ namespace ged
 		GFraction::GFraction(GFraction&& move)
 		{
 			std::cout << "move ctor" << std::endl;
+
+			numerator = move.numerator;
+			denominator = move.denominator;
+
+			move.numerator = 0;
+			move.denominator = 0;
 		}
 
 		GFraction::~GFraction() {}

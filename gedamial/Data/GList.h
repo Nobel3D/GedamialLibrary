@@ -1,6 +1,25 @@
 #pragma once
 #include <iostream>
 
+/*
+	  Graphical representation of the Link<T> struct
+      ------------------------
+	  |			val			 |
+	  |----------------------|
+	  |			next		 |==========>  
+	  ------------------------
+
+
+	  Graphical representation of a GList<T> object
+	  ------------------------			 ------------------------			------------------------
+	  |			val			 |			 |			val		    |			|			val		   |
+	  |----------------------|			 |----------------------|			|----------------------|
+	  |			next		 |==========>|			next	    |==========>|			next	   |==========> nullptr
+	  ------------------------			 ------------------------			------------------------
+*/
+
+#define USE_DEBUG false
+
 namespace ged
 {
 	namespace Data
@@ -16,22 +35,22 @@ namespace ged
 		class GList
 		{
 		private:
-			Link<T>* il;
-			int items = 0;
+			Link<T>* head = nullptr;
+			size_t items = 0;
 
 			// Prints all the nodes
 			void print_all() const
 			{
-				for (Link<T>* p = il; p; p = p->next)				
-					std::cout << p->val << std::endl;				
+				for (Link<T>* p = head; p; p = p->next)				
+					cout << p->val << endl;				
 			}
 
 			// Deletes all the nodes from the list
-			void ClearAll()
+			void Clear()
 			{
-				if (il)
+				if (head)
 				{
-					Link<T>* prev = il;
+					Link<T>* prev = head;
 					Link<T>* succ = prev->next;
 
 					while (succ)
@@ -44,13 +63,14 @@ namespace ged
 					delete prev;
 				}
 
-				il = nullptr;
+				head = nullptr;
+				items = 0;
 			}
 
 			// For test purposes; prints every node with each index
 			void PrintDebug()
 			{
-				Link<T>* tmp = il;
+				Link<T>* tmp = head;
 
 				for (int i = 0; tmp; i++)
 				{
@@ -60,59 +80,73 @@ namespace ged
 			}
 
 		public:
-			GList() : il{ nullptr } {}
+			GList() : head{ nullptr } {  }
 
-			GList(const T& val) : il{ new Link<T>{ val,nullptr } } 
+			GList(const T& val) : head{ new Link<T>{ val,nullptr } } 
 			{ 
 				items++; 
 			}
 
-			// Copy Constructor
-			GList(const GList<T>& copy)
+			GList(std::initializer_list<T> ilist)
 			{
+				if(USE_DEBUG) cout << "# INITIALIZER LIST CTOR (" << ilist.size() << " elements)" << endl;
+
+				int c{0};
+				for (auto elem = ilist.begin(); elem != ilist.end(); elem++, c++)
+					push_tail(*elem);
+			}
+
+			// Copy Constructor
+			GList(const GList<T>& copy) : GList()
+			{
+				if (USE_DEBUG) cout << "# COPY CTOR #" << endl;
+
 				Copy(copy, *this);
 			}
 
 			// Move Constructor
 			GList(GList<T>&& move)
 			{
-				il = new Link<T>{ move.il->val,nullptr };
+				if (USE_DEBUG) cout << "# MOVE CTOR #" << endl;
 
-				Link<T>* ParentPointer = move.il->next;
+				head = move.head;
+				items = move.items;
 
-				while (ParentPointer)
-				{
-					push_tail(ParentPointer->val);
-					ParentPointer = ParentPointer->next;
-				}
+				move.head = nullptr;
+				move.items = 0;
 			}
 		
 			~GList()
 			{				
-				ClearAll();				
+				Clear();				
 			}			
 
 			/* FUNCTIONS */ 
-			static void Copy(const GList<T>& Parent, GList<T>& Target)
+			static void Copy(const GList<T>& source, GList<T>& target)
 			{
-				Target.il = new Link<T>{ Parent.il->val, nullptr };
+				/*
+				// old and deprecated
+				//here we take for granted the Source has a head... if not -> crash!
+				Target.head = new Link<T>{ Source.head->val, nullptr };
+				Link<T>* SourcePointer = Source.head->next;	
+				*/
 
-				Link<T>* ParentPointer = Parent.il->next;
+				// iterator will point to source's head
+				Link<T>* iterator = source.head;
 
-				while (ParentPointer)
+				while (iterator)
 				{
-					Target.push_tail(ParentPointer->val);
-
-					ParentPointer = ParentPointer->next;
+					target.push_tail(iterator->val);
+					iterator = iterator->next;
 				}
 			}
 
 			// Searches for a specific value in the list (if more than one, returns the first one found)
-			int Search(const T& value)
-			{
-				int counter = 1;
-				Link<T>* tmp = il;
+			size_t Search(const T& value)
+			{				
+				Link<T>* tmp = head;
 
+				size_t counter = 1;
 				while (tmp)
 				{
 					if (tmp->val == value)
@@ -124,15 +158,16 @@ namespace ged
 					counter++;
 				}
 
+				// not found
 				return -1;
 			}
 
 			// Adds an element at the beginning of the list
 			void push_head(const T& val)
 			{
-				Link<T>* newNode = new Link<T>{ val, il };
+				Link<T>* newNode = new Link<T>{ val, head };
 
-				il = newNode;
+				head = newNode;
 
 				items++;
 			}
@@ -142,12 +177,12 @@ namespace ged
 			{
 				Link<T>* newNode = new Link<T>{ val , nullptr };
 
-				if (!il)
-					il = newNode;
+				if (!head)
+					head = newNode;
 
 				else
 				{
-					Link<T>* alias = il;
+					Link<T>* alias = head;
 
 					while (alias->next != nullptr)
 						alias = alias->next;
@@ -161,7 +196,7 @@ namespace ged
 			// Deletes a single value
 			void DeleteValue(const T& value)
 			{
-				int position = Search(value);
+				size_t position = Search(value);
 
 				if (position != -1)
 					DeletePosition(position);
@@ -172,8 +207,8 @@ namespace ged
 					// If the item to remove is at the BEGINNING...
 					if (position == 0)
 					{
-						Link<T>* tmp = il;
-						il = il->next;
+						Link<T>* tmp = head;
+						head = head->next;
 
 						delete tmp;
 						tmp = nullptr;
@@ -182,8 +217,8 @@ namespace ged
 					// If the item to remove is in the MIDDLE...
 					else
 					{
-						Link<T>* previous = il;
-						Link<T>* scroller = il->next;
+						Link<T>* previous = head;
+						Link<T>* scroller = head->next;
 
 						// Make scroller to point to the node to delete
 						for (int i = 0; i < position-1; i++)
@@ -207,8 +242,9 @@ namespace ged
 			// Deletes all the duplicates of a given value
 			void DeleteDuplicates(const T& value)
 			{
-				int position;
+				size_t position;
 
+				// execute the loop while there's still a value to delete
 				do
 				{
 					position = Search(value);
@@ -222,8 +258,8 @@ namespace ged
 						// If the item to remove is at the BEGINNING...
 						if (position == 0)
 						{
-							Link<T>* tmp = il;
-							il = il->next;
+							Link<T>* tmp = head;
+							head = head->next;
 
 							delete tmp;
 							tmp = nullptr;
@@ -234,8 +270,8 @@ namespace ged
 						// If the item to remove is in the MIDDLE...
 						else
 						{
-							Link<T>* previous = il;
-							Link<T>* scroller = il->next;
+							Link<T>* previous = head;
+							Link<T>* scroller = head->next;
 
 							// Make scroller to point to the node to delete
 							for (int i = 0; i < position - 1; i++)
@@ -259,7 +295,7 @@ namespace ged
 				} while(position != -1);
 			}
 
-			void DeletePosition(int _pos)
+			void DeletePosition(size_t _posToSearch)
 			{
 				// If our list doesn't contain any element, just return
 				if (items == 0)
@@ -268,10 +304,10 @@ namespace ged
 				else
 				{
 					// If we want to delete the head...
-					if (_pos == 1)
+					if (_posToSearch == 1)
 					{
-						Link<T>* temp = il;
-						il = il->next;
+						Link<T>* temp = head;
+						head = head->next;
 
 						delete temp;
 						items--;
@@ -281,13 +317,13 @@ namespace ged
 					{						
 						// If you get here it means you don't want to delete the head
 						// But if the head is all you've got, then return
-						if (!il->next)
+						if (!head->next)
 							return;
 
 						else
 						{
-							Link<T>* previous = il;
-							Link<T>* scroller = previous->next;
+							Link<T>* previous = head;
+							Link<T>* scroller = previous->next;		// can't be nullptr, because of the check above
 
 							// We start from 2 since we've already checked if the node to delete is the head
 							// and also because SCROLLER is now pointing to the 2nd node of the list
@@ -295,9 +331,9 @@ namespace ged
 
 							// Cycle through all the nodes until we get to the one to delete...
 
-							// 1c -> We verify if we haven't reached our node yet 
-							// 2c -> We verify if the next element EXISTS. If not, stop going through
-							while (localPos < _pos && scroller->next)
+							// 1cond -> We verify if we haven't reached our node yet 
+							// 2cond -> We verify if the next element EXISTS. If not, stop going through
+							while (localPos < _posToSearch && scroller->next)
 							{
 								previous = scroller;
 								scroller = scroller->next;
@@ -306,7 +342,7 @@ namespace ged
 
 							// If the node to delete was found at the end of the research...
 							// (because we might've not found it)
-							if (localPos == _pos)
+							if (localPos == _posToSearch)
 							{
 								previous->next = scroller->next;
 								delete scroller;
@@ -322,14 +358,14 @@ namespace ged
 			(1 method)
 			void Reverse()
 			{
-				if (il == nullptr)
+				if (head == nullptr)
 					return;
 
 				Link<T>* prev = nullptr;
 				Link<T>* current = nullptr;
 				Link<T>* next = nullptr;
 
-				current = il;
+				current = head;
 
 				while (current != nullptr) 
 				{
@@ -339,7 +375,7 @@ namespace ged
 					current = next;
 				}
 				// now let the head point at the last node (prev)
-				il = prev;
+				head = prev;
 			}
 
 			(2 method)
@@ -348,14 +384,14 @@ namespace ged
 				GList<T>* result = new GList<T>();
 				GList::Copy(toReverse, *result);
 
-				if (result->il == nullptr)
+				if (result->head == nullptr)
 					return nullptr;
 
 				Link<T>* prev = nullptr;
 				Link<T>* current = nullptr;
 				Link<T>* next = nullptr;
 
-				current = result->il;
+				current = result->head;
 
 				while (current != nullptr)
 				{
@@ -366,7 +402,7 @@ namespace ged
 				}
 
 				// now let the head point at the last node (prev)
-				result->il = prev;
+				result->head = prev;
 
 				return result;
 			}
@@ -379,14 +415,14 @@ namespace ged
 
 				GList::Copy(*this, result);
 
-				if (result.il == nullptr)
+				if (result.head == nullptr)
 					return *this;
 
 				Link<T>* prev = nullptr;
 				Link<T>* current = nullptr;
 				Link<T>* next = nullptr;
 
-				current = result.il;
+				current = result.head;
 
 				while (current != nullptr)
 				{
@@ -397,10 +433,15 @@ namespace ged
 				}
 
 				// now let the head point at the last node (prev)
-				result.il = prev;
+				result.head = prev;
 
 				return result;
 			}			
+
+			size_t Size()
+			{
+				return items;
+			}
 
 		    /* OPERATOR OVERLOADING */
 			friend std::ostream& operator<<(std::ostream& s, const GList& other)			
@@ -411,7 +452,7 @@ namespace ged
 			
 			GList<T>& operator=(const GList<T>& other)
 			{
-				ClearAll();
+				Clear();
 
 				Copy(other, *this);		
 
