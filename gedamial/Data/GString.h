@@ -70,7 +70,21 @@ namespace ged
 			int Vowels() const;
 			// returns the number of consonants in the string
 			int Consonants() const;
+			// checks whether a given character is a letter or not
+			static bool isLetter(char c);
+			// checks whether a given character is a digit or not
+			static bool isDigit(char c);
 
+			/* RANGE FOR LOOP SUPPORT */
+			char* begin()
+			{
+				return &mainString[0];
+			}
+
+			char* end()
+			{
+				return &mainString[size];
+			}
 
 			/* OPERATOR OVERLOADING */			
 			char& operator[](int Index);
@@ -85,7 +99,9 @@ namespace ged
 			friend bool operator==(const GString& first, const GString& second);
 			friend bool operator!=(const GString& first, const GString& second);
 			friend bool operator<(const GString& first, const GString& second);
+			friend bool operator>(const GString& first, const GString& second);
 
+			GString operator+(GString& other);
 			GString& operator+=(const char* right);			
 			GString& operator+=(const GString& right);
 			GString& operator+=(char right);
@@ -93,7 +109,7 @@ namespace ged
 			/* IMPLICIT CONVERTIONS */
 			operator const char*() const;
 			operator char*() const;
-			operator char() const;	// returns the first letter of the string
+			operator char() const;	      // returns the first letter of the string
 		};
 	}
 }

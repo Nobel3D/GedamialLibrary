@@ -25,6 +25,7 @@
 	20/03/2016 - added GMatrix class
 	24/04/2016 - provided operator>> overload for GString class
 	05/06/2016 - GString class performance optimized a lot; new Split() function
+	30/06/2016 - GString class now supports For-Range loop
 */
 
 // MATHEMATICS

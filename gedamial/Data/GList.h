@@ -32,6 +32,13 @@ namespace ged
 		};
 
 		template<typename T>
+		struct SearchResult
+		{
+			Link<T>* foundNode;
+			Link<T>* previousNode;
+		};
+
+		template<typename T>
 		class GList
 		{
 		private:
@@ -160,6 +167,20 @@ namespace ged
 
 				// not found
 				return -1;
+			}
+
+			SearchResult<T> DeepSearch(const T& ValueToFind)
+			{
+				Link<T>* previous = nullptr;
+				Link<T>* current = head;
+				
+				while (current && current->val != ValueToFind)
+				{
+					previous = current;
+					current = current->next;
+				}
+
+				return SearchResult<T>{current, previous};
 			}
 
 			// Adds an element at the beginning of the list

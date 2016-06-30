@@ -220,6 +220,22 @@ namespace ged
 			return size - Vowels();
 		}
 
+		bool GString::isLetter(char c)
+		{
+			if (static_cast<int>(c) >= 65 && static_cast<int>(c) <= 90 ||
+				static_cast<int>(c) >= 97 && static_cast<int>(c) <= 122)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		bool GString::isDigit(char c)
+		{
+			return !isLetter(c);
+		}
+
 		size_t GString::Find(const char charToSearch, size_t start) const
 		{
 			for (int i = start; i < size; i++)
@@ -385,6 +401,9 @@ namespace ged
 			if (!(beginIndex >= 0 && beginIndex < size    &&    endIndex >= 0 && endIndex < size))
 				return GString();
 
+			if (beginIndex > endIndex)
+				return GString();
+
 			// The last "+1" is for the NULL character (\0) 
 			int totalSize = (endIndex - beginIndex + 1) + 1;
 			char* tmp = new char[totalSize];					// this space must be freed after
@@ -478,6 +497,10 @@ namespace ged
 
 		std::istream& operator>>(std::istream & s, GString & other)
 		{
+			// clearing the stream buffer
+			s.clear();
+			s.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 			// allocating random space
 			const int buffSz = 100;
 			char buff[buffSz];
@@ -485,8 +508,8 @@ namespace ged
 			// getting the string from the stream
 			s.get(buff, buffSz, '\n');
 
-			// copying buff into myString
-			other = GString(buff);
+			// assigning buff to myString
+			other = buff;
 
 			// clearing the stream buffer
 			s.clear();
@@ -524,6 +547,35 @@ namespace ged
 					return true;
 
 			return false;
+		}
+
+		bool operator>(const GString & first, const GString & second)
+		{
+			return !(first < second);
+		}
+
+		GString GString::operator+(GString & other)
+		{
+			char* result = new char[this->size + other.size + 1];
+			int rPos = 0;
+
+			for (int i = 0; i < this->size; i++)
+			{
+				result[rPos] = mainString[i];
+				rPos++;
+			}
+
+			for (int i = 0; i < other.size; i++)
+			{
+				result[rPos] = other.mainString[i];
+				rPos++;
+			}
+
+			GString toReturn(result);
+
+			delete[] result;			// don't forget to free the memory
+
+			return toReturn;
 		}
 
 		GString& GString::operator+=(const char* right)
