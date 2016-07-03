@@ -16,7 +16,7 @@ namespace ged
 			{
 				cout << "***************" << endl;
 				if (CstyleString) cout << "Creation process started for (" << CstyleString << ")" << endl;
-				else			  cout << "Creation process started for ( #nullptr# )" << endl;
+				else			  cout << "Creation process started for #nullptr#" << endl;
 			}
 
 			Create(CstyleString);
@@ -25,8 +25,7 @@ namespace ged
 			{
 				cout << "Creation process ended" << endl;
 				cout << "***************" << endl << endl;
-			}
-		
+			}		
 		}
 
 		GString::GString(const GString& copy) //: GString((const char*)copy)
@@ -122,7 +121,7 @@ namespace ged
 		void GString::Append(const char* toAdd)
 		{
 			/*
-				WITHOUT DYNAMIC ALLOCATION!
+				WITHOUT DYNAMIC ALLOCATION! -- bad function, segmentation faults
 				void Cat(char* prima, char* seconda)
 				{
 					int j = Lunghezza(prima);
@@ -140,8 +139,9 @@ namespace ged
 				}
 			*/
 			
+			cout << "Append const char*" << endl;
 			// The last "+1" is for the NULL character (\0)
-			const int finalSize = size + strlen(toAdd) + 1;
+			const size_t finalSize = size + strlen(toAdd) + 1;
 
 			char* finale = new char[finalSize];
 
@@ -169,6 +169,7 @@ namespace ged
 
 		void GString::Append(char toAdd)
 		{
+			cout << "Append char" << endl;
 			// The first "+1" is for the new character which is going to be appended
 			// The last "+1" is for the NULL character (\0)
 			char* finale = new char[ (size + 1) + 1 ];
@@ -554,11 +555,12 @@ namespace ged
 			return !(first < second);
 		}
 
-		GString GString::operator+(GString & other)
+		GString GString::operator+(GString& other)
 		{
+			/*
 			char* result = new char[this->size + other.size + 1];
 			int rPos = 0;
-
+			
 			for (int i = 0; i < this->size; i++)
 			{
 				result[rPos] = mainString[i];
@@ -576,6 +578,13 @@ namespace ged
 			delete[] result;			// don't forget to free the memory
 
 			return toReturn;
+			*/
+
+			cout << "In operator+ " << *this << endl;
+			GString result = *this;
+			result.Append(static_cast<char*>(other));
+
+			return result;
 		}
 
 		GString& GString::operator+=(const char* right)
