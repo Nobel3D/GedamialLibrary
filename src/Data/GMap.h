@@ -20,19 +20,19 @@ namespace ged
 		public:
 			GMap(int size_mapper) //if dont want use lists
 			{                     //better structured datas
-			    if(size_mapper <= 0)
-                    return;       //manage exception!
-
-			    size = 0;
-			    keys = new KEY_t    [size_mapper];
-			    values = new VALUE_t[size_mapper];
+				if(size_mapper <= 0)
+                    			return;       //manage exception!
+				
+				size = 0;
+				keys = new KEY_t    [size_mapper];
+				values = new VALUE_t[size_mapper];
 			}
-            void Add(KEY_t key, VALUE_t value)
-            {
-                keys[size] = key;
-                values[size] = value;
-                size++;
-            }
+            		void Add(KEY_t key, VALUE_t value)
+            		{
+                		keys[size] = key;
+                		values[size] = value;
+                		size++;
+            		}
 			VALUE_t Find(KEY_t key_search)
 			{
 				for (int i = 0 ; i < size; i++)
@@ -49,9 +49,9 @@ namespace ged
 
 			~GMap()
 			{
-                delete[] keys;
-                delete[] values;
-                size = 0;
+                		delete[] keys;
+                		delete[] values;
+        			size = 0;
 			}
 		};
 	}
