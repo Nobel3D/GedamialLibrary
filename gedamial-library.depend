@@ -1,0 +1,89 @@
+# depslib dependency file v1.0
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GArray.cpp
+	"GArray.h"
+
+1472555508 /home/luca/Programmazione/proj/gedamial-library/src/Data/GArray.h
+	<iostream>
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GList.cpp
+	"GList.h"
+
+1472555553 /home/luca/Programmazione/proj/gedamial-library/src/Data/GList.h
+	<iostream>
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GMap.cpp
+	"GMap.h"
+
+1472761968 /home/luca/Programmazione/proj/gedamial-library/src/Data/GMap.h
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GMatrix.cpp
+	"GMatrix.h"
+
+1472760223 /home/luca/Programmazione/proj/gedamial-library/src/Data/GMatrix.h
+	<cstdlib>
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GStack.cpp
+	"GStack.h"
+
+1472760079 /home/luca/Programmazione/proj/gedamial-library/src/Data/GStack.h
+	<iostream>
+
+1472760327 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GString.cpp
+	"GString.h"
+	<string>
+	<cstring>
+	<limits>
+
+1467562927 /home/luca/Programmazione/proj/gedamial-library/src/Data/GString.h
+	<iostream>
+	"GArray.h"
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Data/GTree.cpp
+	"GTree.h"
+
+1467562927 /home/luca/Programmazione/proj/gedamial-library/src/Data/GTree.h
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/gedamial.cpp
+	"gedamial.h"
+
+1472761170 /home/luca/Programmazione/proj/gedamial-library/src/gedamial.h
+	"Mathematics/GFraction.h"
+	"Mathematics/GVector3.h"
+	"Mathematics/Point.h"
+	"Mathematics/Segment.h"
+	"Data/GArray.h"
+	"Data/GString.h"
+	"Data/GList.h"
+	"Data/GStack.h"
+	"Data/GTree.h"
+	"Data/GMatrix.h"
+	"Data/GMap.h"
+
+1467562927 /home/luca/Programmazione/proj/gedamial-library/src/Mathematics/GFraction.h
+	<string>
+
+1467562927 /home/luca/Programmazione/proj/gedamial-library/src/Mathematics/GVector3.h
+	<ostream>
+
+1467562927 /home/luca/Programmazione/proj/gedamial-library/src/Mathematics/Point.h
+
+1467562927 /home/luca/Programmazione/proj/gedamial-library/src/Mathematics/Segment.h
+	"Point.h"
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Mathematics/GFraction.cpp
+	"GFraction.h"
+	<iostream>
+	<sstream>
+	<math.h>
+
+1472760360 source:/home/luca/Programmazione/proj/gedamial-library/src/Mathematics/GVector3.cpp
+	"GVector3.h"
+	<iostream>
+	<cmath>
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Mathematics/Point.cpp
+	"Point.h"
+
+1467562927 source:/home/luca/Programmazione/proj/gedamial-library/src/Mathematics/Segment.cpp
+	"Segment.h"
+
